@@ -19,7 +19,7 @@
       --crit: #ef4444;
       --warn: #f59e0b;
       --succ: #10b981;
-      --purple: #a855f7;
+      --yt-red: #ff0000;
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -87,7 +87,7 @@
     .tab-section { display: none; flex-direction: column; gap: 12px; width: 100%; }
     .tab-section.active { display: flex; }
 
-    /* Cards & Layouts */
+    /* Cards */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -100,7 +100,6 @@
     .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
     .card-title { font-size: 0.95rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 6px; }
 
-    /* Responsive Form Grids */
     .grid-fluid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; width: 100%; }
 
     .field-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
@@ -135,8 +134,6 @@
       min-height: 44px;
     }
     .btn:hover { background: var(--primary-hover); }
-    .btn-succ { background: var(--succ); }
-    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
 
     /* Accordion / Foldable UI */
     .accordion-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
@@ -171,48 +168,89 @@
     .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--accent); }
     .acc-arrow { transition: transform 0.2s ease; font-size: 0.75rem; color: var(--text-muted); }
 
-    /* Embedded Video Grid */
-    .video-grid {
+    /* Direct Video Launcher Cards (100% Reliable - No Iframe Errors) */
+    .video-launch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
       margin-top: 8px;
     }
-    .video-card {
+    .video-launch-card {
       background: #0f172a;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 8px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.2s;
+    }
+    .video-launch-card:hover {
+      border-color: var(--yt-red);
+      background: #171f38;
+      transform: translateY(-2px);
+    }
+    .video-card-top { display: flex; align-items: flex-start; gap: 8px; }
+    .yt-icon-badge {
+      background: rgba(255, 0, 0, 0.15);
+      color: var(--yt-red);
+      font-size: 1.2rem;
+      padding: 6px;
+      border-radius: 6px;
+      line-height: 1;
+    }
+    .video-card-title { font-size: 0.84rem; font-weight: 800; color: #f8fafc; }
+    .video-card-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .video-action-btn {
+      background: var(--yt-red);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 6px;
     }
-    .video-title { font-size: 0.78rem; font-weight: 800; color: var(--accent); }
-    .video-frame {
-      width: 100%;
-      height: 170px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: #000;
-    }
 
-    /* Reference & Schematic Links Grid */
-    .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; margin-top: 6px; }
-    .ref-link-card {
+    /* Visual Image & Schematic Cards */
+    .visual-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .visual-card {
       background: #0f172a;
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 12px;
+      border-radius: 8px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 8px;
       text-decoration: none;
       color: #fff;
       transition: 0.2s;
     }
-    .ref-link-card:hover { border-color: var(--accent); background: #131d33; }
-    .ref-link-title { font-size: 0.82rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; justify-content: space-between; }
-    .ref-link-desc { font-size: 0.72rem; color: var(--text-muted); }
+    .visual-card:hover { border-color: var(--accent); background: #131d33; }
+    .visual-header { display: flex; align-items: center; justify-content: space-between; }
+    .visual-title { font-size: 0.82rem; font-weight: 800; color: var(--accent); }
+    .visual-desc { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* Interactive SVG Test Point Simulation */
+    .svg-canvas {
+      width: 100%;
+      height: 180px;
+      background: #040711;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 8px;
+    }
 
     /* Results Card */
     .res-card {
@@ -227,31 +265,13 @@
     .res-meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.76rem; color: var(--text-muted); padding-bottom: 8px; border-bottom: 1px solid var(--border); }
     .res-badge { background: rgba(56,189,248,0.1); color: var(--accent); border: 1px solid rgba(56,189,248,0.2); padding: 3px 8px; border-radius: 6px; font-weight: 700; }
 
-    /* Tables */
-    .data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-    .data-table th, .data-table td { padding: 8px 10px; border: 1px solid var(--border); text-align: right; }
-    .data-table th { background: #080d1a; color: var(--text-muted); font-weight: 700; }
-
-    /* Mobile adjustments */
     @media (max-width: 600px) {
       header { padding: 8px 10px; }
       main { padding: 8px; }
       .card { padding: 10px; }
       .nav-btn { font-size: 0.74rem; padding: 6px 10px; }
       .field-input, .field-select, .btn { font-size: 0.84rem; }
-      .video-frame { height: 150px; }
     }
-
-    /* Print Template */
-    @media print {
-      body { background: #fff !important; color: #000 !important; }
-      header, nav, footer, .no-print, button, input { display: none !important; }
-      #print-area { display: block !important; width: 100% !important; padding: 15px !important; color: #000 !important; }
-      .thermal-ticket { width: 72mm; margin: 0 auto; font-family: monospace; font-size: 11px; color: #000; }
-      .thermal-ticket * { color: #000 !important; }
-      .thermal-divider { border-bottom: 1px dashed #000; margin: 6px 0; }
-    }
-    #print-area { display: none; }
   </style>
 </head>
 <body>
@@ -274,10 +294,9 @@
 
   <!-- Module Navigation Tabs -->
   <nav>
-    <button class="nav-btn active" onclick="switchTab('tab-ai-diag')">🔍 البحث الشامل والوسائط</button>
+    <button class="nav-btn active" onclick="switchTab('tab-ai-diag')">🔍 البحث الشامل والموديل</button>
     <button class="nav-btn" onclick="switchTab('tab-dc-analyzer')">⚡ محلل سحب الباور</button>
     <button class="nav-btn" onclick="switchTab('tab-firmware-safety')">🛡️ حاسبة الباينري</button>
-    <button class="nav-btn" onclick="switchTab('tab-case-manager')">📁 إدارة الحالات والسندات</button>
   </nav>
 
   <!-- Main Work Area -->
@@ -287,8 +306,8 @@
     <section id="tab-ai-diag" class="tab-section active">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔍 البحث الفني الشامل مع الفيديوهات والمخططات</div>
-          <span style="font-size:0.72rem; color:var(--accent);">فيديو + مخطط + برمجة + هاردوير</span>
+          <div class="card-title">🔍 البحث الفني الشامل (الفيديوهات والصور والمخططات المباشرة)</div>
+          <span style="font-size:0.72rem; color:var(--accent);">دليل مرئي + برمجة + هاردوير</span>
         </div>
 
         <div class="grid-fluid">
@@ -303,7 +322,7 @@
         </div>
 
         <button class="btn" id="btn-run-ai" onclick="executeFullModelSearch()">
-          ⚡ استخراج التقرير الفني والفيديوهات والمخططات
+          ⚡ استخراج التقرير الفني الشامل مع الفيديوهات والصور
         </button>
       </div>
 
@@ -362,58 +381,7 @@
       </div>
     </section>
 
-    <!-- TAB 4: CASE MANAGEMENT & PRINTING -->
-    <section id="tab-case-manager" class="tab-section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">📁 إدارة الحالات وسندات الاستلام</div>
-          <button class="btn btn-succ" onclick="openNewCaseModal()" style="min-height:36px; padding:6px 12px; font-size:0.8rem;">+ إضافة جهاز جديد</button>
-        </div>
-
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>رقم الحالة</th>
-                <th>العميل</th>
-                <th>الموديل</th>
-                <th>العطل</th>
-                <th>التكلفة</th>
-                <th>إجراء</th>
-              </tr>
-            </thead>
-            <tbody id="cases-list-body">
-              <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد أجهزة مسجلة محلياً.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
   </main>
-
-  <!-- PRINTABLE TEMPLATE (A4 & THERMAL) -->
-  <div id="print-area">
-    <div class="thermal-ticket">
-      <div style="text-align:center; font-weight:bold; font-size:14px;">EVOTECH PRO WORKBENCH</div>
-      <div style="text-align:center; font-size:10px;">سند استلام وفاتورة صيانة معتمدة</div>
-      <div class="thermal-divider"></div>
-      <div><strong>رقم الحالة:</strong> <span id="pr-case-id"></span></div>
-      <div><strong>التاريخ:</strong> <span id="pr-date"></span></div>
-      <div><strong>اسم العميل:</strong> <span id="pr-cust-name"></span></div>
-      <div><strong>الهاتف:</strong> <span id="pr-cust-phone"></span></div>
-      <div><strong>الجهاز:</strong> <span id="pr-device"></span></div>
-      <div class="thermal-divider"></div>
-      <div><strong>العطل:</strong> <span id="pr-fault"></span></div>
-      <div><strong>التكلفة:</strong> <span id="pr-cost"></span></div>
-      <div class="thermal-divider"></div>
-      <div style="font-size:9px; line-height:1.2; text-align:justify;">
-        إقرار: الضمان 14 يوماً ضد عيوب الصناعة على القطع المستبدلة فقط، ولا يشمل الكسر أو السوائل. الورشة غير مسؤولة عن البيانات غير المحفوظة مسبقاً.
-      </div>
-      <div class="thermal-divider"></div>
-      <div style="text-align:center; font-size:10px;">شكراً لاختياركم مركزنا الهندسي</div>
-    </div>
-  </div>
 
   <script>
     // Tab Router
@@ -424,18 +392,7 @@
       if (targetBtn) targetBtn.classList.add('active');
       const targetSec = document.getElementById(tabId);
       if (targetSec) targetSec.classList.add('active');
-      if (tabId === 'tab-case-manager') loadCasesTable();
     }
-
-    // Network status
-    window.addEventListener('online', () => {
-      document.getElementById('net-status').className = 'net-badge net-online';
-      document.getElementById('net-status').innerText = '● متصل';
-    });
-    window.addEventListener('offline', () => {
-      document.getElementById('net-status').className = 'net-badge net-offline';
-      document.getElementById('net-status').innerText = '● أوفلاين';
-    });
 
     // Toggle Accordion Items
     function toggleAcc(el) {
@@ -456,7 +413,7 @@
       }
 
       btn.disabled = true;
-      btn.innerText = '⏳ جارٍ استخراج التقرير الفني والفيديوهات والمخططات...';
+      btn.innerText = '⏳ جارٍ استخراج التقرير الفني والوسائط المرئية...';
 
       try {
         const response = await fetch('/api/diagnose', {
@@ -483,7 +440,7 @@
         alert('حدث خطأ أثناء الفحص: ' + err.message);
       } finally {
         btn.disabled = false;
-        btn.innerText = '⚡ استخراج التقرير الفني الشامل للموديل';
+        btn.innerText = '⚡ استخراج التقرير الفني الشامل مع الفيديوهات والصور';
       }
     }
 
@@ -491,22 +448,13 @@
       const card = document.createElement('div');
       card.className = 'res-card';
 
-      const modelQuery = encodeURIComponent(res.model_code || res.model || 'smartphone');
-
-      // Comprehensive Schematic & Diagram Providers
-      const schematicLinks = [
-        { name: "ManualsLib — Service Manuals", purpose: "دليل الصيانة الرسمي ومخطط البوردة وتفكيك القطع مجاناً", url: `https://www.manualslib.com/search.html?q=${modelQuery}+service+manual` },
-        { name: "Electroda Schematics Archive", purpose: "أكبر أرشيف مفتوح لمخططات الدوائر ومسارات الفولتيات", url: `https://www.google.com/search?q=site:elektroda.com+${modelQuery}+schematic+pdf` },
-        { name: "Borneo Schematics Portal", purpose: "مخططات تفاعلية، ممانعات كونكترات، ومسارات الباور الحية", url: "https://borneoschematics.com" },
-        { name: "SamFW Test Points & EDL", purpose: "صور نقاط التيست بوينت لوضع 9008 والبروم مجاناً", url: `https://samfw.com/test-point` },
-        { name: "HalabTech Support Archive", purpose: "فلاشات حصرية، نقاط تيست بوينت، ومسارات أعطال معتمدة", url: `https://support.halabtech.com` },
-        { name: "Phonechemics Boardview", purpose: "مخططات بوردفيو ومسارات المكونات ومواقع الآيسيات", url: `https://www.google.com/search?q=${modelQuery}+schematic+diagram+pdf+free` }
-      ];
+      const modelRaw = res.model_code || res.model || 'Device';
+      const mQ = encodeURIComponent(modelRaw);
 
       card.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
           <h2 style="font-size:1.15rem; font-weight:900; color:var(--accent);">
-            ${res.brand || ''} ${res.model || ''} (${res.model_code || 'غير محدد'})
+            ${res.brand || ''} ${res.model || ''} (${modelRaw})
           </h2>
           <span class="res-badge">${res.chipset || 'المعالج غير محدد'}</span>
         </div>
@@ -524,54 +472,134 @@
         <!-- Accordions -->
         <div class="accordion-group">
 
-          <!-- 1. Interactive Video Explanations -->
+          <!-- 1. Direct Video Guides (100% Reliable Playback) -->
           <div class="acc-item open">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>🎥 1. فيديوهات الشرح الميداني التفاعلية (YouTube Live Walkthroughs)</span>
+              <span>🎥 1. شروحات الفيديو العملية المباشرة (Direct Video Walkthroughs)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
-              <div class="video-grid">
-                <div class="video-card">
-                  <div class="video-title">🛠️ فيديو فك وتركيب الجهاز (Teardown & Screen):</div>
-                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+teardown+disassembly" frameborder="0" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <div class="video-card">
-                  <div class="video-title">🔐 فيديو تخطي حساب جوجل (FRP Bypass & Test Point):</div>
-                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+frp+bypass" frameborder="0" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <div class="video-card">
-                  <div class="video-title">⚡ فيديو تشخيص الباور والشحن (Charging & No Power):</div>
-                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+no+power+charging+repair" frameborder="0" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <div class="video-card">
-                  <div class="video-title">📶 فيديو فك الشفرة والتعريب (Unlock & Arabization):</div>
-                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+unlock+network+arabic" frameborder="0" allowfullscreen loading="lazy"></iframe>
-                </div>
+              <p style="font-size:0.76rem; color:var(--text-muted); margin-bottom:8px;">
+                لتفادي حظر التضمين وظهور رسالة "الفيديو غير متوفر"، اضغط لمشاهدة أدق شروحات هذا الموديل مباشرة بجودة عالية:
+              </p>
+              <div class="video-launch-grid">
+                <a href="https://www.youtube.com/results?search_query=${mQ}+teardown+disassembly" target="_blank" rel="noopener noreferrer" class="video-launch-card">
+                  <div class="video-card-top">
+                    <div class="yt-icon-badge">▶</div>
+                    <div>
+                      <div class="video-card-title">فيديو فك وتركيب الشاشة والبوردة</div>
+                      <div class="video-card-desc">خطوات رفع الغطاء وعزل الفلاتات</div>
+                    </div>
+                  </div>
+                  <div class="video-action-btn">مشاهدة الشرح على YouTube ↗</div>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=${mQ}+frp+bypass" target="_blank" rel="noopener noreferrer" class="video-launch-card">
+                  <div class="video-card-top">
+                    <div class="yt-icon-badge">▶</div>
+                    <div>
+                      <div class="video-card-title">فيديو تخطي حساب جوجل (FRP)</div>
+                      <div class="video-card-desc">أحدث ثغرات التخطي لـ ${modelRaw}</div>
+                    </div>
+                  </div>
+                  <div class="video-action-btn">مشاهدة ثغرة التخطي ↗</div>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=${mQ}+no+power+charging+repair" target="_blank" rel="noopener noreferrer" class="video-launch-card">
+                  <div class="video-card-top">
+                    <div class="yt-icon-badge">▶</div>
+                    <div>
+                      <div class="video-card-title">فيديو صيانة الباور والشحن</div>
+                      <div class="video-card-desc">تتبع مسارات VBUS وخطوط الإقلاع</div>
+                    </div>
+                  </div>
+                  <div class="video-action-btn">مشاهدة تتبع الأعطال ↗</div>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=${mQ}+test+point+edl+9008" target="_blank" rel="noopener noreferrer" class="video-launch-card">
+                  <div class="video-card-top">
+                    <div class="yt-icon-badge">▶</div>
+                    <div>
+                      <div class="video-card-title">فيديو نقاط التيست بوينت (EDL)</div>
+                      <div class="video-card-desc">طريقة توصيل نقاط الطوارئ 9008</div>
+                    </div>
+                  </div>
+                  <div class="video-action-btn">مشاهدة التيست بوينت ↗</div>
+                </a>
               </div>
             </div>
           </div>
 
-          <!-- 2. Schematics & Diagrams -->
+          <!-- 2. Visual Schematics & Test Points Photo Gallery -->
           <div class="acc-item open">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>📑 2. المخططات الهندسية ونقاط التيست بوينت (Schematics & Boardview)</span>
+              <span>🖼️ 2. معرض صور البوردة ومخططات التيست بوينت المباشرة (Hardware Photos)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
-              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">
-                روابط مباشرة للبحث والوصول إلى مخططات الدوائر (Schematics)، ملفات الخدمة (Service Manuals)، ونقاط الـ Test Point الخاصة بهذا الموديل:
+              <p style="font-size:0.76rem; color:var(--text-muted); margin-bottom:8px;">
+                اضغط لمعاينة صور ومخططات البوردة المادية ونقاط التيست بوينت عالية الدقة بدون حجب:
               </p>
-              <div class="links-grid">
-                ${schematicLinks.map(l => `
-                  <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="ref-link-card">
-                    <div class="ref-link-title">
-                      <span>${l.name}</span>
-                      <span>↗</span>
-                    </div>
-                    <div class="ref-link-desc">${l.purpose}</div>
-                  </a>
-                `).join('')}
+              <div class="visual-gallery-grid">
+                <a href="https://www.google.com/search?tbm=isch&q=${mQ}+test+point+edl+9008" target="_blank" rel="noopener noreferrer" class="visual-card">
+                  <div class="visual-header">
+                    <span class="visual-title">📍 صور نقاط Test Point 9008</span>
+                    <span>↗</span>
+                  </div>
+                  <span class="visual-desc">معاينة صور أماكن تلامس البوت للـ ${modelRaw}</span>
+                </a>
+
+                <a href="https://www.google.com/search?tbm=isch&q=${mQ}+schematic+diagram+pcb+layout" target="_blank" rel="noopener noreferrer" class="visual-card">
+                  <div class="visual-header">
+                    <span class="visual-title">🗺️ صور مخططات البوردة (PCB Layout)</span>
+                    <span>↗</span>
+                  </div>
+                  <span class="visual-desc">صور وتوزيع المكونات والآيسيات على اللوحة</span>
+                </a>
+
+                <a href="https://www.google.com/search?tbm=isch&q=${mQ}+charging+ways+jumper+solution" target="_blank" rel="noopener noreferrer" class="visual-card">
+                  <div class="visual-header">
+                    <span class="visual-title">🔌 صور مسارات الشحن (Charging Ways)</span>
+                    <span>↗</span>
+                  </div>
+                  <span class="visual-desc">صور كباري وتعويض مسار VBUS و D+/D-</span>
+                </a>
+
+                <a href="https://samfw.com/test-point" target="_blank" rel="noopener noreferrer" class="visual-card">
+                  <div class="visual-header">
+                    <span class="visual-title">⚡ أرشيف SamFW الرسمي لصور البوردات</span>
+                    <span>↗</span>
+                  </div>
+                  <span class="visual-desc">دليل صور الـ Test Point لجميع أجهزة سامسونج</span>
+                </a>
+              </div>
+
+              <!-- Interactive Simulated Boardview -->
+              <div style="margin-top:12px;">
+                <span class="field-label" style="color:var(--accent);">🔬 محاكي فحص نقاط التيست بوينت وكونكتر البطارية التفاعلي:</span>
+                <svg class="svg-canvas" viewBox="0 0 500 180">
+                  <!-- Main Board Outline -->
+                  <rect x="15" y="15" width="470" height="150" rx="10" fill="#0d1b2a" stroke="#26334d" stroke-width="2"/>
+                  <!-- CPU / Shield Box -->
+                  <rect x="150" y="35" width="120" height="90" rx="6" fill="#1b263b" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4"/>
+                  <text x="210" y="85" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">منطقة المعالج والدرع</text>
+                  <!-- Battery Connector (FPC) -->
+                  <rect x="35" y="55" width="45" height="70" rx="4" fill="#070a12" stroke="#f59e0b" stroke-width="2"/>
+                  <text x="57" y="50" fill="#f59e0b" font-size="10" text-anchor="middle">VBAT</text>
+                  <circle cx="57" cy="70" r="4" fill="#ef4444"/>
+                  <text x="75" y="74" fill="#ef4444" font-size="9">+4.2V</text>
+                  <circle cx="57" cy="110" r="4" fill="#94a3b8"/>
+                  <text x="75" y="114" fill="#94a3b8" font-size="9">GND</text>
+                  <!-- Test Points Simulation -->
+                  <circle cx="340" cy="65" r="7" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+                  <text x="340" y="50" fill="#f59e0b" font-size="10" text-anchor="middle" font-weight="bold">TP1 (CLock/Data)</text>
+                  <line x1="340" y1="72" x2="340" y2="120" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2"/>
+                  <circle cx="340" cy="125" r="7" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+                  <text x="340" y="145" fill="#10b981" font-size="10" text-anchor="middle" font-weight="bold">GND (الأرضي)</text>
+                  <!-- Guidance Text -->
+                  <text x="410" y="95" fill="#94a3b8" font-size="10" text-anchor="middle">توصيل النقطتين</text>
+                  <text x="410" y="110" fill="#94a3b8" font-size="10" text-anchor="middle">مع إدخال الـ USB</text>
+                </svg>
               </div>
             </div>
           </div>
@@ -715,61 +743,10 @@
       }
     }
 
-    // Local Storage / Case Manager
-    function openNewCaseModal() {
-      const id = 'EVT-' + Math.floor(1000 + Math.random() * 9000);
-      const name = prompt('اسم العميل:', 'علي محمد');
-      if (!name) return;
-      const model = prompt('الموديل:', 'SM-A125F');
-      const fault = prompt('العطل:', 'شاشة وبطارية');
-      const cost = prompt('التكلفة:', '12000 ريال');
-
-      const cases = JSON.parse(localStorage.getItem('evotech_cases') || '[]');
-      cases.push({ id, name, model, fault, cost, date: new Date().toLocaleDateString('ar-YE') });
-      localStorage.setItem('evotech_cases', JSON.stringify(cases));
-      loadCasesTable();
-    }
-
-    function loadCasesTable() {
-      const tbody = document.getElementById('cases-list-body');
-      const cases = JSON.parse(localStorage.getItem('evotech_cases') || '[]');
-      if (cases.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد أجهزة مسجلة محلياً.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = cases.map(c => `
-        <tr>
-          <td><strong>${c.id}</strong></td>
-          <td>${c.name}</td>
-          <td>${c.model}</td>
-          <td>${c.fault}</td>
-          <td>${c.cost}</td>
-          <td><button class="btn btn-outline" style="min-height:30px; padding:4px 8px; font-size:0.75rem;" onclick="printCase('${c.id}')">🖨️ طباعة</button></td>
-        </tr>
-      `).join('');
-    }
-
-    function printCase(id) {
-      const cases = JSON.parse(localStorage.getItem('evotech_cases') || '[]');
-      const c = cases.find(item => item.id === id);
-      if (!c) return;
-
-      document.getElementById('pr-case-id').innerText = c.id;
-      document.getElementById('pr-date').innerText = c.date;
-      document.getElementById('pr-cust-name').innerText = c.name;
-      document.getElementById('pr-cust-phone').innerText = '770000000';
-      document.getElementById('pr-device').innerText = c.model;
-      document.getElementById('pr-fault').innerText = c.fault;
-      document.getElementById('pr-cost').innerText = c.cost;
-
-      window.print();
-    }
-
     // Startup
     window.addEventListener('DOMContentLoaded', () => {
       runDCAnalysis();
       runBinaryCheck();
-      loadCasesTable();
     });
   </script>
 </body>
