@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   }
   body = body || {};
 
-  const { context, text, measurements, systemPrompt } = body;
+  const { context, text, measurements } = body;
 
   let queryText = (typeof text === 'string' && text.trim().length > 0) ? text.trim() : '';
   if (!queryText && context) {
@@ -37,12 +37,54 @@ export default async function handler(req, res) {
     queryText = 'فحص شامل للجهاز وتشخيص العطل المذكور';
   }
 
-  const defaultPrompt = 'You are EvoTech AI, an elite smartphone hardware & firmware engineering workbench assistant. Respond strictly in valid RFC 8259 JSON in Arabic.';
-  const activePrompt = (typeof systemPrompt === 'string' && systemPrompt.trim().length > 0)
-    ? systemPrompt.trim()
-    : defaultPrompt;
+  const systemInstruction = `You are EvoTech Pro, an elite Master Level smartphone hardware & firmware engineer.
+Analyze the target device and issue.
+Output MUST be strictly valid RFC 8259 JSON in Arabic (technical terms in English allowed).
+Do not fabricate pinouts or fake links.
 
-  // النماذج المؤكدة والنشطة رسمياً في حسابك
+Strict JSON Contract:
+{
+  "brand": "اسم الشركة",
+  "model": "اسم الموديل والتسويقي",
+  "model_code": "كود الموديل الدقيق SM-A125F etc",
+  "chipset": "المعالج بالتفصيل SoC",
+  "diagnostic_summary": "ملخص الفحص الهندسي",
+  "hardware_diagnosis": {
+    "boot_current_analysis": "تحليل سحب الباور سبلاي",
+    "diode_readings": "قيم الممانعات المتوقعة بالأفوميتر",
+    "power_rails": "مسارات التغذية المتأثرة VBAT / VBUS / VDD",
+    "solution_steps": "خطوات الصيانة والمسارات"
+  },
+  "arabization": {
+    "methods": "طريقة التعريب الرسمية والمعدلة (CSC تغيير، تعريب برامج عبر ADB بدون روت، أو فلاشة موجهة)",
+    "commands_or_tools": "الأوامر أو الأدوات المطلوبة للتعريب"
+  },
+  "boot_modes": {
+    "download_odin": "طريقة الدخول لوضع داونلود / فاست بوت",
+    "recovery": "طريقة الدخول لوضع الريكفري والأزرار المطلوبة",
+    "edl_testpoint": "طريقة الدخول لوضع EDL 9008 أو BROM (نقاط التيست بوينت أو كابل الـ EDL)",
+    "safe_mode": "طريقة الدخول والخروج من الوضع الآمن Safe Mode",
+    "diag_port_code": "أكواد فتح بورت الدياج وتصحيح USB (مثل *#0808#)"
+  },
+  "network_and_internet": {
+    "sim_unlock": "طريقة فك شفرة الشبكة الرسمية ومفاتيح الـ SPC/MSL أو فك الباتش",
+    "apn_activation": "طريقة ضبط وتفعيل الإنترنت والـ 4G/3G وإعدادات APN لشركات الاتصال",
+    "diag_configuration": "توجيهات ضبط ملفات NV / QCN والشبكة إن لزم"
+  },
+  "frp_bypass": {
+    "recommended_method": "طريقة تخطي حساب جوجل FRP الرسمية المضمونة (ثغرة المتصفح، *#0*#، Test Point، أو تفليش ملف مسح الحماية)",
+    "security_warning": "تحذيرات تفادي إتلاف الحماية أو قفل Knox / KG Lock"
+  },
+  "disassembly_guide": {
+    "heat_temp_and_time": "درجة حرارة الهوت إير أو السخان (مثال: 80°C لـ 5 دقائق)",
+    "critical_precautions": "محاذير قاتلة يجب الانتباه لها (فلاتة البصمة، كابلات الهوائي، فلاتة الشاشة، نزع البطارية)",
+    "step_by_step": "خطوات فك وتركيب الجهاز بالترتيب"
+  },
+  "tools_and_references": [
+    { "name": "اسم الأداة / الموقع المرجعي", "purpose": "الغرض منه", "url": "https://..." }
+  ]
+}`;
+
   const candidateModels = [
     'gemini-2.5-flash-lite',
     'gemini-flash-lite-latest',
@@ -65,12 +107,10 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           contents: [{ parts: [{ text: queryText }] }],
-          system_instruction: {
-            parts: [{ text: activePrompt }]
-          },
+          system_instruction: { parts: [{ text: systemInstruction }] },
           generationConfig: {
             response_mime_type: 'application/json',
-            temperature: 0.2
+            temperature: 0.15
           }
         })
       });
