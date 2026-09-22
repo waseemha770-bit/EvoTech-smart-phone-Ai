@@ -3,34 +3,38 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { context, text, measurements, systemPrompt } = req.body || {};
-  const apiKey = process.env.GEMINI_API_KEY;
+  // تفكيك آمن لجسم الطلب مهما كان نوعه
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      body = {};
+    }
+  }
+  body = body || {};
 
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ 
       error: 'مفتاح GEMINI_API_KEY غير موجود في إعدادات Vercel Environment Variables.' 
     });
   }
 
-  // بناء نص الاستفسار حتى لو أُرسل عبر كائن context أو measurements
-  let queryText = text || '';
+  const { context, text, measurements, systemPrompt } = body;
+
+  let queryText = (typeof text === 'string' && text.trim().length > 0) ? text.trim() : '';
   if (!queryText && context) {
     queryText = `Device: ${JSON.stringify(context)}, Measurements: ${JSON.stringify(measurements || [])}`;
   }
-
-  if (!queryText.trim()) {
-    return res.status(400).json({ error: 'نص الفحص أو بيانات الجهاز مطلوبة.' });
+  if (!queryText) {
+    queryText = 'فحص شامل للجهاز وتشخيص العطل المذكور';
   }
 
-  // تعليمات افتراضية تلزم النموذج بالرد بصيغة JSON دائماً حتى لو لم يُرسل systemPrompt
-  const DEFAULT_SYSTEM_PROMPT = `You are EvoTech AI, an elite smartphone hardware & firmware engineering workbench assistant.
-Analyze technical measurements, diode mode values, boot currents, and device symptoms.
-Never hallucinate unverified schematics or fake pinouts.
-All technical reasoning in English, final response strictly in valid RFC 8259 JSON in Arabic.`;
-
-  const activeSystemPrompt = (typeof systemPrompt === 'string' && systemPrompt.trim().length > 0)
+  const defaultPrompt = 'You are EvoTech AI, an elite smartphone hardware & firmware engineering workbench assistant. Respond strictly in valid RFC 8259 JSON in Arabic.';
+  const activePrompt = (typeof systemPrompt === 'string' && systemPrompt.trim().length > 0)
     ? systemPrompt.trim()
-    : DEFAULT_SYSTEM_PROMPT;
+    : defaultPrompt;
 
   const candidateModels = [
     'gemini-3.5-flash-lite',
@@ -53,7 +57,9 @@ All technical reasoning in English, final response strictly in valid RFC 8259 JS
         },
         body: JSON.stringify({
           contents: [{ parts: [{ text: queryText }] }],
-          system_instruction: { parts: [{ text: activeSystemPrompt }] },
+          system_instruction: {
+            parts: [{ text: activePrompt }]
+          },
           generationConfig: {
             response_mime_type: 'application/json',
             temperature: 0.2
