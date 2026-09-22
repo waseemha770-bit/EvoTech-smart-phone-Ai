@@ -102,11 +102,10 @@
 
     /* Responsive Form Grids */
     .grid-fluid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; width: 100%; }
-    .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; width: 100%; }
 
     .field-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
     .field-label { font-size: 0.74rem; color: var(--text-muted); font-weight: 700; }
-    .field-input, .field-select, .field-textarea {
+    .field-input, .field-select {
       background: #080d1a;
       border: 1px solid var(--border);
       color: #fff;
@@ -117,7 +116,7 @@
       width: 100%;
       transition: border 0.2s;
     }
-    .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--accent); }
+    .field-input:focus, .field-select:focus { border-color: var(--accent); }
 
     .btn {
       background: var(--primary);
@@ -172,16 +171,41 @@
     .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--accent); }
     .acc-arrow { transition: transform 0.2s ease; font-size: 0.75rem; color: var(--text-muted); }
 
-    /* Reference Links Grid */
-    .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 6px; }
+    /* Embedded Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .video-card {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .video-title { font-size: 0.78rem; font-weight: 800; color: var(--accent); }
+    .video-frame {
+      width: 100%;
+      height: 170px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #000;
+    }
+
+    /* Reference & Schematic Links Grid */
+    .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; margin-top: 6px; }
     .ref-link-card {
       background: #0f172a;
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 8px 12px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
       text-decoration: none;
       color: #fff;
       transition: 0.2s;
@@ -215,6 +239,7 @@
       .card { padding: 10px; }
       .nav-btn { font-size: 0.74rem; padding: 6px 10px; }
       .field-input, .field-select, .btn { font-size: 0.84rem; }
+      .video-frame { height: 150px; }
     }
 
     /* Print Template */
@@ -249,7 +274,7 @@
 
   <!-- Module Navigation Tabs -->
   <nav>
-    <button class="nav-btn active" onclick="switchTab('tab-ai-diag')">🔍 البحث الشامل والموديل</button>
+    <button class="nav-btn active" onclick="switchTab('tab-ai-diag')">🔍 البحث الشامل والوسائط</button>
     <button class="nav-btn" onclick="switchTab('tab-dc-analyzer')">⚡ محلل سحب الباور</button>
     <button class="nav-btn" onclick="switchTab('tab-firmware-safety')">🛡️ حاسبة الباينري</button>
     <button class="nav-btn" onclick="switchTab('tab-case-manager')">📁 إدارة الحالات والسندات</button>
@@ -258,12 +283,12 @@
   <!-- Main Work Area -->
   <main>
 
-    <!-- TAB 1: AI FULL MODEL SEARCH & DIAGNOSIS -->
+    <!-- TAB 1: AI FULL MODEL SEARCH, VIDEOS & SCHEMATICS -->
     <section id="tab-ai-diag" class="tab-section active">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔍 البحث الفني للموديل (Comprehensive Model Diagnostic)</div>
-          <span style="font-size:0.72rem; color:var(--accent);">برمجة + هاردوير + فك وتركيب</span>
+          <div class="card-title">🔍 البحث الفني الشامل مع الفيديوهات والمخططات</div>
+          <span style="font-size:0.72rem; color:var(--accent);">فيديو + مخطط + برمجة + هاردوير</span>
         </div>
 
         <div class="grid-fluid">
@@ -273,12 +298,12 @@
           </div>
           <div class="field-group">
             <label class="field-label">العطل المشتكى منه أو المطلوب تشخيصه:</label>
-            <input type="text" id="ai-fault" class="field-input" placeholder="مثال: فاصل باور مع سحب 80mA، تعريب، أو تخطي FRP" />
+            <input type="text" id="ai-fault" class="field-input" placeholder="مثال: فاصل باور، شحن، تعريب، أو تخطي FRP" />
           </div>
         </div>
 
         <button class="btn" id="btn-run-ai" onclick="executeFullModelSearch()">
-          ⚡ استخراج التقرير الفني الشامل للموديل
+          ⚡ استخراج التقرير الفني والفيديوهات والمخططات
         </button>
       </div>
 
@@ -431,7 +456,7 @@
       }
 
       btn.disabled = true;
-      btn.innerText = '⏳ جارٍ استخراج التقرير الفني الشامل...';
+      btn.innerText = '⏳ جارٍ استخراج التقرير الفني والفيديوهات والمخططات...';
 
       try {
         const response = await fetch('/api/diagnose', {
@@ -466,18 +491,17 @@
       const card = document.createElement('div');
       card.className = 'res-card';
 
-      // Default fallback link references
-      const defaultLinks = [
-        { name: "SamFW Official Firmwares", purpose: "تحميل فلاشات سامسونج الرسمية مجاناً وسرعة عالية", url: `https://samfw.com/firmware/${res.model_code || ''}` },
-        { name: "HalabTech Support", purpose: "فلاشات، تعريب، مودمات، وحلول الشبكة المعتمدة", url: "https://support.halabtech.com" },
-        { name: "Borneo Schematics Portal", purpose: "مخططات ومسارات الممانعات وخطوط الباور المعتمدة", url: "https://borneoschematics.com" },
-        { name: "GSM-Forum Discussions", purpose: "أكبر منتدى هندسي لحلول أعطال المعالج والذاكرة", url: "https://forum.gsmhosting.com" },
-        { name: "Easy-Firmware Repository", purpose: "ملفات ريكفري، كومبينيشن، وتيست بوينت رسمية", url: "https://easy-firmware.com" }
-      ];
+      const modelQuery = encodeURIComponent(res.model_code || res.model || 'smartphone');
 
-      const refLinks = (res.tools_and_references && res.tools_and_references.length > 0)
-        ? res.tools_and_references
-        : defaultLinks;
+      // Comprehensive Schematic & Diagram Providers
+      const schematicLinks = [
+        { name: "ManualsLib — Service Manuals", purpose: "دليل الصيانة الرسمي ومخطط البوردة وتفكيك القطع مجاناً", url: `https://www.manualslib.com/search.html?q=${modelQuery}+service+manual` },
+        { name: "Electroda Schematics Archive", purpose: "أكبر أرشيف مفتوح لمخططات الدوائر ومسارات الفولتيات", url: `https://www.google.com/search?q=site:elektroda.com+${modelQuery}+schematic+pdf` },
+        { name: "Borneo Schematics Portal", purpose: "مخططات تفاعلية، ممانعات كونكترات، ومسارات الباور الحية", url: "https://borneoschematics.com" },
+        { name: "SamFW Test Points & EDL", purpose: "صور نقاط التيست بوينت لوضع 9008 والبروم مجاناً", url: `https://samfw.com/test-point` },
+        { name: "HalabTech Support Archive", purpose: "فلاشات حصرية، نقاط تيست بوينت، ومسارات أعطال معتمدة", url: `https://support.halabtech.com` },
+        { name: "Phonechemics Boardview", purpose: "مخططات بوردفيو ومسارات المكونات ومواقع الآيسيات", url: `https://www.google.com/search?q=${modelQuery}+schematic+diagram+pdf+free` }
+      ];
 
       card.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
@@ -497,13 +521,65 @@
           ${res.diagnostic_summary || 'تم استخراج بيانات الموديل بنجاح.'}
         </div>
 
-        <!-- 6 Core Engineering Accordions -->
+        <!-- Accordions -->
         <div class="accordion-group">
 
-          <!-- 1. Arabization -->
+          <!-- 1. Interactive Video Explanations -->
           <div class="acc-item open">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>🌐 1. طريقة التعريب وضبط اللغة (Arabization)</span>
+              <span>🎥 1. فيديوهات الشرح الميداني التفاعلية (YouTube Live Walkthroughs)</span>
+              <span class="acc-arrow">▼</span>
+            </div>
+            <div class="acc-content">
+              <div class="video-grid">
+                <div class="video-card">
+                  <div class="video-title">🛠️ فيديو فك وتركيب الجهاز (Teardown & Screen):</div>
+                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+teardown+disassembly" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="video-card">
+                  <div class="video-title">🔐 فيديو تخطي حساب جوجل (FRP Bypass & Test Point):</div>
+                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+frp+bypass" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="video-card">
+                  <div class="video-title">⚡ فيديو تشخيص الباور والشحن (Charging & No Power):</div>
+                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+no+power+charging+repair" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="video-card">
+                  <div class="video-title">📶 فيديو فك الشفرة والتعريب (Unlock & Arabization):</div>
+                  <iframe class="video-frame" src="https://www.youtube.com/embed?listType=search&list=${modelQuery}+unlock+network+arabic" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Schematics & Diagrams -->
+          <div class="acc-item open">
+            <div class="acc-header" onclick="toggleAcc(this)">
+              <span>📑 2. المخططات الهندسية ونقاط التيست بوينت (Schematics & Boardview)</span>
+              <span class="acc-arrow">▼</span>
+            </div>
+            <div class="acc-content">
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">
+                روابط مباشرة للبحث والوصول إلى مخططات الدوائر (Schematics)، ملفات الخدمة (Service Manuals)، ونقاط الـ Test Point الخاصة بهذا الموديل:
+              </p>
+              <div class="links-grid">
+                ${schematicLinks.map(l => `
+                  <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="ref-link-card">
+                    <div class="ref-link-title">
+                      <span>${l.name}</span>
+                      <span>↗</span>
+                    </div>
+                    <div class="ref-link-desc">${l.purpose}</div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Arabization -->
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">
+              <span>🌐 3. طريقة التعريب وضبط اللغة (Arabization)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
@@ -514,10 +590,10 @@
             </div>
           </div>
 
-          <!-- 2. Boot Modes -->
+          <!-- 4. Boot Modes -->
           <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>📟 2. طرق الدخول لكافة أوضاع الجهاز (Boot Modes)</span>
+              <span>📟 4. طرق الدخول لكافة أوضاع الجهاز (Boot Modes)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
@@ -529,10 +605,10 @@
             </div>
           </div>
 
-          <!-- 3. Network & Internet Unlock -->
+          <!-- 5. Network & Internet Unlock -->
           <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>📶 3. فك الشفرة وتفعيل الإنترنت والـ 4G (Carrier Unlock & APN)</span>
+              <span>📶 5. فك الشفرة وتفعيل الإنترنت والـ 4G (Carrier Unlock & APN)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
@@ -545,10 +621,10 @@
             </div>
           </div>
 
-          <!-- 4. FRP Bypass -->
+          <!-- 6. FRP Bypass -->
           <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>🔐 4. بروتوكول تخطي حساب جوجل (FRP Bypass Protocol)</span>
+              <span>🔐 6. بروتوكول تخطي حساب جوجل (FRP Bypass Protocol)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
@@ -559,10 +635,10 @@
             </div>
           </div>
 
-          <!-- 5. Teardown & Disassembly -->
+          <!-- 7. Teardown & Disassembly -->
           <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-              <span>🛠️ 5. دليل فك وتركيب الجهاز والمحاذير المادية (Teardown Guide)</span>
+              <span>🛠️ 7. دليل فك وتركيب الجهاز والمحاذير المادية (Teardown Guide)</span>
               <span class="acc-arrow">▼</span>
             </div>
             <div class="acc-content">
@@ -571,27 +647,6 @@
               ${res.disassembly_guide?.critical_precautions || 'انتبه لفلاتة البصمة وفلاتة الشاشة'}<br><br>
               <strong>خطوات الفك والتركيب بالتسلسل:</strong><br>
               ${res.disassembly_guide?.step_by_step || 'رفع الغطاء الخلفي، فك البراغي، عزل البطارية أولاً.'}
-            </div>
-          </div>
-
-          <!-- 6. Direct Tools & References -->
-          <div class="acc-item open">
-            <div class="acc-header" onclick="toggleAcc(this)">
-              <span>🔗 6. الروابط المباشرة والمراجع ومخططات الصيانة</span>
-              <span class="acc-arrow">▼</span>
-            </div>
-            <div class="acc-content">
-              <div class="links-grid">
-                ${refLinks.map(l => `
-                  <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="ref-link-card">
-                    <div class="ref-link-title">
-                      <span>${l.name}</span>
-                      <span>↗</span>
-                    </div>
-                    <div class="ref-link-desc">${l.purpose || 'رابط مرجعي معتمد'}</div>
-                  </a>
-                `).join('')}
-              </div>
             </div>
           </div>
 
