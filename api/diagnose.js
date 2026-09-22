@@ -16,10 +16,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'نص الفحص مطلوب.' });
   }
 
+  // أحدث نماذج معتمدة وخفيفة جداً لتفادي ضغط الخوادم
   const candidateModels = [
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-flash-latest',
+    'gemini-3.5-flash-lite',
+    'gemini-3.1-flash-lite',
+    'gemini-3.5-flash',
+    'gemini-3.7-flash',
     'gemini-3.6-flash'
   ];
 
@@ -57,5 +59,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(500).json({ error: lastError || 'تعذر الاتصال بخوادم الذكاء الاصطناعي.' });
+  return res.status(500).json({ error: lastError || 'تعذر الاتصال بجميع خوادم الذكاء الاصطناعي.' });
 }
