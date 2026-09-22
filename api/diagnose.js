@@ -27,61 +27,61 @@ export default async function handler(req, res) {
   }
   body = body || {};
 
-  const { context, text, measurements } = body;
+  const { context, text, target_topic } = body;
 
   let queryText = (typeof text === 'string' && text.trim().length > 0) ? text.trim() : '';
   if (!queryText && context) {
-    queryText = `Device: ${JSON.stringify(context)}, Measurements: ${JSON.stringify(measurements || [])}`;
-  }
-  if (!queryText) {
-    queryText = 'فحص شامل للجهاز وتشخيص العطل المذكور';
+    queryText = `Device: ${JSON.stringify(context)}, Target Topic: ${target_topic || 'all'}`;
   }
 
-  const systemInstruction = `You are EvoTech Pro, an elite Master Level smartphone hardware & firmware engineer.
-Analyze the target device and issue.
-Output MUST be strictly valid RFC 8259 JSON in Arabic (technical terms in English allowed).
-Do not fabricate pinouts or fake links.
+  const systemInstruction = `You are EvoTech Pro, an elite smartphone hardware & firmware engineer.
+CRITICAL INSTRUCTION:
+- Analyze what the user is specifically searching for: "${target_topic || 'general'}".
+- If the user searches for a specific topic (e.g. ONLY Arabization, ONLY FRP, ONLY Boot Modes, ONLY Network Unlock, ONLY Disassembly, or a specific Hardware Fault like Charging/Power), populate ONLY that specific section with deep, exhaustive technical details and leave all other unrelated sections as null.
+- Only populate all sections if the user specifically requested a full/comprehensive report ("all").
+- Output MUST be strictly valid RFC 8259 JSON in Arabic.
 
-Strict JSON Contract:
+JSON Schema:
 {
   "brand": "اسم الشركة",
-  "model": "اسم الموديل والتسويقي",
-  "model_code": "كود الموديل الدقيق SM-A125F etc",
-  "chipset": "المعالج بالتفصيل SoC",
-  "diagnostic_summary": "ملخص الفحص الهندسي",
-  "hardware_diagnosis": {
-    "boot_current_analysis": "تحليل سحب الباور سبلاي",
-    "diode_readings": "قيم الممانعات المتوقعة بالأفوميتر",
-    "power_rails": "مسارات التغذية المتأثرة VBAT / VBUS / VDD",
+  "model": "اسم الموديل",
+  "model_code": "كود الموديل الدقيق",
+  "chipset": "المعالج بالتفصيل",
+  "requested_topic": "${target_topic || 'all'}",
+  "diagnostic_summary": "ملخص فني مباشر لما تم البحث عنه حصراً",
+  "hardware_diagnosis": null or {
+    "boot_current_analysis": "تحليل سحب الباور سبلاي للعطل المطلوب",
+    "diode_readings": "قيم الممانعات المتوقعة",
+    "power_rails": "المسارات المتأثرة",
     "solution_steps": "خطوات الصيانة والمسارات"
   },
-  "arabization": {
-    "methods": "طريقة التعريب الرسمية والمعدلة (CSC تغيير، تعريب برامج عبر ADB بدون روت، أو فلاشة موجهة)",
-    "commands_or_tools": "الأوامر أو الأدوات المطلوبة للتعريب"
+  "arabization": null or {
+    "methods": "طريقة التعريب المعتمدة",
+    "commands_or_tools": "الأوامر أو الأدوات المطلوبة"
   },
-  "boot_modes": {
-    "download_odin": "طريقة الدخول لوضع داونلود / فاست بوت",
-    "recovery": "طريقة الدخول لوضع الريكفري والأزرار المطلوبة",
-    "edl_testpoint": "طريقة الدخول لوضع EDL 9008 أو BROM (نقاط التيست بوينت أو كابل الـ EDL)",
-    "safe_mode": "طريقة الدخول والخروج من الوضع الآمن Safe Mode",
-    "diag_port_code": "أكواد فتح بورت الدياج وتصحيح USB (مثل *#0808#)"
+  "boot_modes": null or {
+    "download_odin": "وضع الداونلود / فاست بوت",
+    "recovery": "وضع الريكفري",
+    "edl_testpoint": "نقاط التيست بوينت أو EDL 9008",
+    "safe_mode": "الوضع الآمن",
+    "diag_port_code": "أكواد فتح بورت الدياج"
   },
-  "network_and_internet": {
-    "sim_unlock": "طريقة فك شفرة الشبكة الرسمية ومفاتيح الـ SPC/MSL أو فك الباتش",
-    "apn_activation": "طريقة ضبط وتفعيل الإنترنت والـ 4G/3G وإعدادات APN لشركات الاتصال",
-    "diag_configuration": "توجيهات ضبط ملفات NV / QCN والشبكة إن لزم"
+  "network_and_internet": null or {
+    "sim_unlock": "فك الشفرة",
+    "apn_activation": "ضبط الإنترنت و APN",
+    "diag_configuration": "توجيهات ضبط ملفات الشبكة"
   },
-  "frp_bypass": {
-    "recommended_method": "طريقة تخطي حساب جوجل FRP الرسمية المضمونة (ثغرة المتصفح، *#0*#، Test Point، أو تفليش ملف مسح الحماية)",
-    "security_warning": "تحذيرات تفادي إتلاف الحماية أو قفل Knox / KG Lock"
+  "frp_bypass": null or {
+    "recommended_method": "طريقة التخطي المضمونة",
+    "security_warning": "تحذيرات تفادي إتلاف الحماية"
   },
-  "disassembly_guide": {
-    "heat_temp_and_time": "درجة حرارة الهوت إير أو السخان (مثال: 80°C لـ 5 دقائق)",
-    "critical_precautions": "محاذير قاتلة يجب الانتباه لها (فلاتة البصمة، كابلات الهوائي، فلاتة الشاشة، نزع البطارية)",
-    "step_by_step": "خطوات فك وتركيب الجهاز بالترتيب"
+  "disassembly_guide": null or {
+    "heat_temp_and_time": "حرارة السخان والمدة",
+    "critical_precautions": "المحاذير الخطيرة لتفادي كسر الشاشة أو قطع الفلاتات",
+    "step_by_step": "خطوات الفك والتركيب"
   },
-  "tools_and_references": [
-    { "name": "اسم الأداة / الموقع المرجعي", "purpose": "الغرض منه", "url": "https://..." }
+  "tools_and_references": null or [
+    { "name": "اسم الأداة أو المرجع", "purpose": "الغرض منه", "url": "https://..." }
   ]
 }`;
 
@@ -110,7 +110,7 @@ Strict JSON Contract:
           system_instruction: { parts: [{ text: systemInstruction }] },
           generationConfig: {
             response_mime_type: 'application/json',
-            temperature: 0.15
+            temperature: 0.1
           }
         })
       });
