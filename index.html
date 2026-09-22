@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>EvoTech AI — منصة الصيانة والبرمجة الهندسية</title>
   <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="/icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -45,20 +47,22 @@
     .brand-text h1 { font-size: 1.05rem; font-weight: 900; color: var(--accent); }
     .brand-text span { font-size: 0.68rem; color: var(--text-muted); display: block; }
     
-    .header-actions { display: flex; align-items: center; gap: 6px; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
     .pwa-btn {
       background: rgba(56, 189, 248, 0.15);
       border: 1px solid var(--accent);
       color: var(--accent);
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.72rem;
+      font-size: 0.76rem;
       font-weight: 800;
       cursor: pointer;
-      display: none;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      transition: all 0.2s;
     }
+    .pwa-btn:hover { background: var(--accent); color: #070a12; }
     .net-badge { font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
     .net-online { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
 
@@ -254,7 +258,7 @@
     <div class="header-actions">
       <button id="pwa-install-btn" class="pwa-btn" onclick="installPWA()">📲 تثبيت التطبيق</button>
       <div class="net-badge net-online">
-        <span>●</span> فائق السرعة
+        <span>●</span> متصل
       </div>
     </div>
   </header>
@@ -699,27 +703,43 @@
       }
     }
 
-    // PWA Installation Hook
+    // Robust PWA Installation Controller
     let deferredPrompt;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       const btn = document.getElementById('pwa-install-btn');
-      if (btn) btn.style.display = 'inline-flex';
+      if (btn && !isStandalone) {
+        btn.innerHTML = '📲 تثبيت التطبيق';
+      }
     });
 
     function installPWA() {
+      if (isStandalone) {
+        alert('أنت بالفعل تستخدم النسخة المثبتة من التطبيق المستقل!');
+        return;
+      }
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            const btn = document.getElementById('pwa-install-btn');
+            if (btn) btn.innerHTML = '✅ تم التثبيت';
+          }
           deferredPrompt = null;
-          document.getElementById('pwa-install-btn').style.display = 'none';
         });
+      } else {
+        alert('لتثبيت التطبيق فوراً على شاشة هاتفك:\n\n1. اضغط على قائمة النقاط الثلاث (⋮) في أعلى المتصفح.\n2. اختر "تثبيت التطبيق" (Install app) أو "إضافة إلى الشاشة الرئيسية" (Add to Home screen).\n3. ستظهر أيقونة التطبيق على شاشتك وتعمل بدون إنترنت.');
       }
     }
 
-    // Initialize Service Worker
     window.addEventListener('DOMContentLoaded', () => {
+      if (isStandalone) {
+        const btn = document.getElementById('pwa-install-btn');
+        if (btn) btn.innerHTML = '✅ مثبت';
+      }
       runDCAnalysis();
       runBinaryCheck();
       if ('serviceWorker' in navigator) {
