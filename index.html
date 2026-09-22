@@ -3,23 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EvoTech AI — مساعد صيانة وتفليش الهواتف</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <title>EvoTech AI — منصة الصيانة الهندسية المتقدمة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: #151d30;
+      --bg: #070a12;
+      --card-bg: #0f172a;
       --panel-bg: #1e293b;
+      --border: #26334d;
+      --accent: #38bdf8;
+      --primary: #2563eb;
+      --crit: #ef4444;
+      --warn: #f59e0b;
+      --succ: #10b981;
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --border: #2d3748;
-      --risk-crit: #ef4444;
-      --risk-high: #f97316;
-      --risk-med: #eab308;
-      --risk-low: #22c55e;
-      --accent-blue: #38bdf8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
     body { background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -27,267 +25,303 @@
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo-area { display: flex; align-items: center; gap: 12px; }
-    .logo-area h1 { font-size: 1.2rem; font-weight: 800; color: var(--accent-blue); }
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #86efac;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-    .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 6px #22c55e; }
-
-    #chat-container {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .bubble {
-      max-width: 92%;
-      padding: 14px 18px;
-      border-radius: 14px;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-    .bubble-user {
-      background: var(--primary);
-      align-self: flex-start;
-      border-bottom-right-radius: 2px;
-      color: #fff;
-    }
-    .bubble-ai {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      align-self: flex-end;
-      width: 100%;
-      max-width: 860px;
-      border-bottom-left-radius: 2px;
-    }
-
-    .report-card { display: flex; flex-direction: column; gap: 14px; }
-    .report-header {
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-      gap: 10px;
-    }
-    .dev-title { font-size: 1.25rem; font-weight: 800; color: var(--accent-blue); }
-    .dev-meta { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
-    .fw-link-btn {
-      background: rgba(56, 189, 248, 0.1);
-      color: var(--accent-blue);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      text-decoration: none;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .grid-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-      background: #080d1a;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    .info-item span { display: block; font-size: 0.72rem; color: var(--text-muted); }
-    .info-item strong { font-size: 0.85rem; color: #e2e8f0; }
-
-    .risk-banner {
-      background: rgba(239, 68, 68, 0.12);
-      border-right: 4px solid var(--risk-crit);
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 0.88rem;
-      color: #fca5a5;
-    }
-    .section-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #93c5fd;
-      margin-bottom: 6px;
-      display: flex;
       align-items: center;
-      gap: 6px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .proc-box {
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.86rem;
-      border: 1px solid var(--border);
-      line-height: 1.6;
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.15rem; color: var(--accent); }
+    
+    .nav-tabs { display: flex; gap: 6px; background: #080d1a; padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
+    .tab-btn {
+      background: transparent; border: none; color: var(--text-muted); padding: 6px 12px;
+      border-radius: 7px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: 0.2s;
     }
-    .cust-msg {
-      background: rgba(34, 197, 94, 0.1);
-      border-right: 4px solid var(--risk-low);
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 0.86rem;
-      color: #86efac;
+    .tab-btn.active { background: var(--primary); color: #fff; }
+
+    .main-workspace { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 15px; }
+
+    .tab-content { display: none; flex-direction: column; gap: 15px; }
+    .tab-content.active { display: flex; }
+
+    /* Tools Styling */
+    .tool-box {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+      display: flex; flex-direction: column; gap: 14px; max-width: 900px; margin: 0 auto; width: 100%;
+    }
+    .tool-title { font-size: 1.05rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .input-row { display: flex; flex-direction: column; gap: 6px; }
+    .input-row label { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; }
+    .ctrl-input {
+      background: #080d1a; border: 1px solid var(--border); color: #fff; padding: 10px 14px;
+      border-radius: 8px; outline: none; font-size: 0.9rem;
+    }
+    .ctrl-input:focus { border-color: var(--accent); }
+
+    .result-badge {
+      background: #080d1a; border-radius: 8px; border-right: 4px solid var(--accent); padding: 12px;
+      font-size: 0.88rem; line-height: 1.6;
     }
 
-    footer { background: var(--card-bg); border-top: 1px solid var(--border); padding: 12px 20px; }
-    .quick-chips { display: flex; gap: 8px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 4px; }
+    /* Chat / AI Box */
+    .bubble { max-width: 92%; padding: 14px 18px; border-radius: 14px; font-size: 0.92rem; line-height: 1.6; }
+    .bubble-user { background: var(--primary); align-self: flex-start; color: #fff; }
+    .bubble-ai { background: var(--card-bg); border: 1px solid var(--border); align-self: flex-end; width: 100%; max-width: 860px; }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+    .stat-card { background: #080d1a; border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; }
+    .stat-card span { display: block; font-size: 0.72rem; color: var(--text-muted); }
+    .stat-card strong { font-size: 0.85rem; color: var(--accent); }
+
+    .sec-header { font-size: 0.88rem; font-weight: 800; color: #93c5fd; margin-bottom: 6px; }
+    .detail-card { background: #080d1a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.86rem; line-height: 1.6; }
+
+    footer { background: var(--card-bg); border-top: 1px solid var(--border); padding: 12px 16px; }
+    .quick-chips { display: flex; gap: 8px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 4px; }
     .chip {
-      background: #0b1120;
-      border: 1px solid var(--border);
-      color: #94a3b8;
-      font-size: 0.78rem;
-      padding: 5px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: 0.2s;
+      background: #080d1a; border: 1px solid var(--border); color: var(--text-muted); font-size: 0.76rem;
+      padding: 5px 12px; border-radius: 20px; cursor: pointer; white-space: nowrap;
     }
-    .chip:hover { color: #fff; border-color: var(--accent-blue); background: #131d33; }
-    .input-form { display: flex; gap: 10px; }
-    .input-form input {
-      flex: 1;
-      background: #070a12;
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 10px;
-      outline: none;
-      font-size: 0.95rem;
-      transition: border 0.2s;
+    .chip:hover { border-color: var(--accent); color: #fff; }
+    .input-bar { display: flex; gap: 8px; }
+    .input-bar input {
+      flex: 1; background: #080d1a; border: 1px solid var(--border); color: #fff; padding: 12px;
+      border-radius: 10px; outline: none; font-size: 0.92rem;
     }
-    .input-form input:focus { border-color: var(--accent-blue); }
-    .input-form button {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 0 24px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
+    .input-bar input:focus { border-color: var(--accent); }
+    .input-bar button {
+      background: var(--primary); color: #fff; border: none; padding: 0 20px; border-radius: 10px;
+      font-weight: 800; cursor: pointer;
     }
-    .input-form button:hover { background: var(--primary-hover); }
-    .loader {
-      display: none;
-      align-self: center;
-      font-size: 0.9rem;
-      color: var(--accent-blue);
-      padding: 10px 0;
-    }
-    .error-box {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid var(--risk-crit);
-      color: #fca5a5;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      line-height: 1.5;
+    .loader { display: none; align-self: center; font-size: 0.85rem; color: var(--accent); padding: 8px; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-ticket, #printable-ticket * { visibility: visible; }
+      #printable-ticket { position: absolute; left: 0; top: 0; width: 100%; border: 1px solid #000; color: #000; background: #fff; padding: 20px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo-area">
-      <span style="font-size:1.6rem;">🔧</span>
-      <div>
-        <h1>EvoTech AI</h1>
-        <p style="font-size:0.75rem; color:var(--text-muted);">مساعد هندسي لتشخيص وصيانة الهواتف الذكية</p>
-      </div>
+    <div class="brand">
+      <span>⚡</span> EvoTech Pro Workbench
     </div>
-    <div class="status-badge">
-      <div class="status-dot"></div>
-      خادم وسيط آمن (Cloud Active)
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('ai-tab')">🤖 فحص الذكاء الاصطناعي</button>
+      <button class="tab-btn" onclick="switchTab('dc-tab')">⚡ سحب الباور سبلاي</button>
+      <button class="tab-btn" onclick="switchTab('binary-tab')">🛡️ حاسبة الباينري</button>
+      <button class="tab-btn" onclick="switchTab('ticket-tab')">📋 سند صيانة</button>
     </div>
   </header>
 
-  <div id="chat-container">
-    <div class="bubble bubble-ai">
-      👋 مرحباً بك يا بشمهندس. المحرك السحابي متصل بالكامل ومجهز لتشخيص الأعطال، استخراج مسارات الباور، الشحن، الشبكة، ومخططات السوفتوير الرسمية.<br>
-      اكتب موديل الجهاز والعطل للبدء فوراً.
-    </div>
-  </div>
+  <div class="main-workspace">
 
-  <div class="loader" id="loader">⏳ جارٍ فحص مسارات الدوائر وتوليد التقرير الهندسي...</div>
+    <!-- 1. AI Assistant Tab -->
+    <div id="ai-tab" class="tab-content active">
+      <div id="chat-container" style="display:flex; flex-direction:column; gap:15px;">
+        <div class="bubble bubble-ai">
+          🔧 مرحباً بك في ورشة EvoTech الذكية. النظام مهيأ لإعطاء تشخيصات دوائر الباور والـ IC، قياسات الممانعات (Diode Mode)، حرارة الشبلنة، ومسارات المخططات. اختر عطلاً سريعاً أو اكتب الموديل بدقة.
+        </div>
+      </div>
+      <div class="loader" id="loader">⏳ جارٍ فحص مسارات الدوائر وتوليد التقرير الهندسي...</div>
+    </div>
+
+    <!-- 2. DC Power Analyzer Tab -->
+    <div id="dc-tab" class="tab-content">
+      <div class="tool-box">
+        <div class="tool-title">⚡ محلل سحب تيار الباور سبلاي (Instant Current Diagnostics)</div>
+        <div class="input-row">
+          <label>مرحلة الفحص:</label>
+          <select id="dc-stage" class="ctrl-input" onchange="analyzeDC()">
+            <option value="before">قبل الضغط على زر الباور (Direct Connect)</option>
+            <option value="after" selected>بعد الضغط على زر الباور (Power Key Pressed)</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label>قيمة سحب التيار (بالمللي أمبير mA):</label>
+          <input type="number" id="dc-current" class="ctrl-input" value="80" step="5" oninput="analyzeDC()" />
+        </div>
+        <div id="dc-result" class="result-badge">
+          اضبط القيمة بالأعلى لمعاينة دائرة العطل ومسار الفحص فوراً.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Samsung Binary Check Tab -->
+    <div id="binary-tab" class="tab-content">
+      <div class="tool-box">
+        <div class="tool-title">🛡️ حاسبة فحص حماية الباينري (SW REV Protection)</div>
+        <div class="input-row">
+          <label>إصدار باينري الجهاز الحالي (من الريكفري أو الوضع العادي):</label>
+          <input type="number" id="current-binary" class="ctrl-input" value="3" placeholder="مثال: 3" oninput="checkBinarySafety()" />
+        </div>
+        <div class="input-row">
+          <label>اسم ملف الفلاشة المراد تفليشها (PDA / AP File Name):</label>
+          <input type="text" id="target-firmware" class="ctrl-input" value="A125FXXU3CVL1" placeholder="مثال: A125FXXU3CVL1" oninput="checkBinarySafety()" />
+        </div>
+        <div id="binary-result" class="result-badge">
+          أدخل اسم الفلاشة لفحص أمان التفليش وتفادي الموت المفاجئ للجهاز.
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Job Ticket Tab -->
+    <div id="ticket-tab" class="tab-content">
+      <div class="tool-box" id="printable-ticket">
+        <div class="tool-title">📋 سند استلام وفاتورة صيانة هاتف</div>
+        <div class="grid-4">
+          <div class="input-row"><label>اسم العميل:</label><input type="text" id="cust-name" class="ctrl-input" value="محمد علي" /></div>
+          <div class="input-row"><label>رقم الهاتف:</label><input type="text" id="cust-phone" class="ctrl-input" value="770000000" /></div>
+          <div class="input-row"><label>موديل الجهاز:</label><input type="text" id="cust-device" class="ctrl-input" value="Samsung SM-A125F" /></div>
+          <div class="input-row"><label>التكلفة التقديرية:</label><input type="text" id="cust-price" class="ctrl-input" value="15,000 ريال" /></div>
+        </div>
+        <div class="input-row">
+          <label>الأعراض والمشاهدات عند الاستلام:</label>
+          <textarea id="cust-symptom" class="ctrl-input" rows="2">شاشة سوداء مع وجود اهتزاز عند التوصيل، لا توجد آثار كسر خارجي.</textarea>
+        </div>
+        <div class="input-row">
+          <label>شروط الضمان والإخلاء:</label>
+          <p style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+            الورشة غير مسؤولة عن فقدان البيانات في حال تطلب الإصلاح سوفتوير. فترة الضمان على القطع المستبدلة 14 يوماً من تاريخ التسليم ضد عيوب الصناعة، ولا يشمل الكسر أو السوائل.
+          </p>
+        </div>
+        <button onclick="window.print()" style="background:var(--succ); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-weight:800; cursor:pointer;">
+          🖨️ طباعة سند الاستلام
+        </button>
+      </div>
+    </div>
+
+  </div>
 
   <footer>
     <div class="quick-chips">
-      <div class="chip" onclick="setQuery('Samsung SM-A125F لا يقلع ويهتز فقط بدون صورة')">SM-A125F (اهتزاز بدون صورة)</div>
-      <div class="chip" onclick="setQuery('Redmi Note 10 عطل فصل بعد التحديث Dead Boot')">Redmi Note 10 (Dead Boot)</div>
-      <div class="chip" onclick="setQuery('Samsung SM-A515F حرارة عالية ولا يشحن')">SM-A515F (حرارة ولا يشحن)</div>
-      <div class="chip" onclick="setQuery('Infinix X688B واقف على شعار ريستارت')">Infinix X688B (Bootloop)</div>
+      <div class="chip" onclick="setQuery('Samsung SM-A125F سحب 80mA ويثبت بعد الباور')">SM-A125F (سحب 80mA ثبات)</div>
+      <div class="chip" onclick="setQuery('Redmi Note 10 فاصل شحن حرارة في PM6150')">Note 10 (حرارة IC الشحن)</div>
+      <div class="chip" onclick="setQuery('Samsung SM-A515F ممانعة مسار VBUS صفر شورت')">SM-A515F (شورت VBUS)</div>
+      <div class="chip" onclick="setQuery('Infinix X688B درجات حرارة شبلنة المعالج والرام')">X688B (حرارة شبلنة CPU)</div>
     </div>
-    <form class="input-form" onsubmit="handleSend(event)">
-      <input type="text" id="user-input" placeholder="اكتب الموديل والعطل هنا (مثال: SM-A125F عطل دائرة الشحن)..." required autocomplete="off" />
-      <button type="submit" id="send-btn">إرسال</button>
+    <form class="input-bar" onsubmit="handleSend(event)">
+      <input type="text" id="user-input" placeholder="اكتب رقم الموديل والملاحظات الدقيقة هنا..." required autocomplete="off" />
+      <button type="submit">إرسال للتشخيص</button>
     </form>
   </footer>
 
   <script>
-    const SYSTEM_PROMPT = `You are EvoTech AI, an elite mobile repair engineer with 10+ years field experience.
-Operate strictly according to these protocols:
-1. All technical reasoning in English.
-2. Final output MUST be strictly valid RFC 8259 JSON in Arabic. Standard English technical terms are encouraged.
-3. Identify exact Model Number (SM-A125F, etc.). Never assume chipsets without verification.
-4. If unknown, write: "غير مؤكد — يحتاج تحقق من مصدر موثوق أو قراءة معلومات الجهاز."
-5. Method Format: "الطريقة: [الإجراء]. السبب: [سبب الاختيار]. نسبة النجاح: [موثقة أو غير متاحة]. مستوى الخطورة: [Low/Medium/High/Critical]. الوقت التقريبي: [المدة]. الأدوات: [الأدوات]."
-6. Flashing: Always account for Binary revision (SW REV) to strictly avoid Downgrade brick.
-7. Risk levels: Low, Medium, High, Critical.
-8. Output JSON format strictly:
+    const SYSTEM_PROMPT = `You are EvoTech Pro, an elite Master Level hardware & software mobile repair engineer.
+Operate strictly according to these engineering rules:
+1. Technical reasoning in English, final response strictly in RFC 8259 valid JSON format in Arabic.
+2. Diode Mode Measurements: Always specify expected multimeter diode mode drop in millivolts (mV) using the red probe to ground.
+3. Power Lines: Name exact lines (VBAT, VPH_PWR, VBUS_5V, VREG_LDO, VDD_MAIN).
+4. Thermal & Soldering: Provide hot air station temperatures (°C) and airflow (%) for shield removal, IC desoldering, and reballing.
+5. Flashing: Specify exact Binary / SW REV validation rules to avoid bricking.
+6. JSON schema strictly:
 {
   "brand": "",
   "marketing_name": "",
   "model_input": "",
   "chipset": "",
-  "cpu": "",
-  "storage": "",
-  "android_version": "",
-  "security_level": "",
-  "variant_region": "",
-  "risk_warning": "",
-  "diagnostic_sequence": "",
-  "flashing": "",
-  "power_repair": "",
-  "charging_repair": "",
-  "screen_repair": "",
-  "network_repair": "",
-  "frp_official": "",
-  "tools_needed": "",
-  "official_firmware_link": "",
-  "firmware_source": "",
-  "common_faults": "",
-  "customer_message": ""
+  "cpu_ram_temp": "درجات حرارة الهوت إير للشبلنة والفك",
+  "dc_current_behavior": "سلوك سحب التيار وتحليله",
+  "diode_mode_values": "قيم الممانعات المتوقعة على الكونكترات ومسارات العطل",
+  "risk_warning": "تحذيرات تفادي إتلاف البوردة أو قفل الباينري",
+  "hardware_solution": "المسارات والقطع الواجب استبدالها أو فحصها",
+  "software_solution": "خطوات السوفتوير والتفليش الآمن",
+  "tools_needed": "الأدوات الهندسية المطلوبة للعملية"
 }`;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
 
     function setQuery(text) {
       document.getElementById('user-input').value = text;
       document.getElementById('user-input').focus();
+      switchTab('ai-tab');
     }
 
+    // DC Power Analysis Logic
+    function analyzeDC() {
+      const stage = document.getElementById('dc-stage').value;
+      const current = parseFloat(document.getElementById('dc-current').value) || 0;
+      const res = document.getElementById('dc-result');
+
+      if (stage === 'before') {
+        if (current === 0) {
+          res.innerHTML = `<strong>سليم مبدئياً (0mA):</strong> لا يوجد تسريب أو شورت صريح على خط التغذية الرئيسي (VBAT / VPH_PWR).`;
+          res.style.borderRightColor = 'var(--succ)';
+        } else if (current > 500) {
+          res.innerHTML = `<strong style="color:var(--crit)">شورت صريح (Direct Short):</strong> شورت مباشر على خط البطارية (VBAT) أو منظم الشحن الأولي OVP. افحص مكثفات التنعيم المجاورة لـ IC الباور أو مضخم الصوت/الشبكة وحقن 3.7V مع كاميرا حرارية أو روزينة.`;
+          res.style.borderRightColor = 'var(--crit)';
+        } else {
+          res.innerHTML = `<strong style="color:var(--warn)">تسريب تيار خفيف (Leakage):</strong> تسريب على مسار VPH_PWR. السبب مكثف تالف جزئياً أو تسريب داخل IC الشحن/الباور.`;
+          res.style.borderRightColor = 'var(--warn)';
+        }
+      } else {
+        if (current === 0) {
+          res.innerHTML = `<strong style="color:var(--crit)">فصل كامل (Dead Key):</strong> مسار كبسة الباور مقطوع، أو تلف فلاتة الباور، أو عدم وصول فولت 1.8V/4V لزر التشغيل من الـ PMIC.`;
+          res.style.borderRightColor = 'var(--crit)';
+        } else if (current >= 20 && current <= 40) {
+          res.innerHTML = `<strong style="color:var(--warn)">سحبية ضعيفة وثبات (20-40mA):</strong> خلل في كريستالة التوقيت 26MHz أو تلف ملفات التغذية الأولية لآيسي الباور (PMIC LDOs).`;
+          res.style.borderRightColor = 'var(--warn)';
+        } else if (current >= 60 && current <= 95) {
+          res.innerHTML = `<strong style="color:var(--accent)">سحبية تعليق البوت (60-95mA Bootloop):</strong> المعالج يستجيب ولكن عاجز عن قراءة الذاكرة (UFS / eMMC). تلف ملفات الـ Bootloader أو فصل في كرات لحام الذاكرة (Reball required).`;
+          res.style.borderRightColor = 'var(--accent)';
+        } else if (current >= 150 && current <= 350) {
+          res.innerHTML = `<strong style="color:var(--warn)">شورت في مخارج الباور الثانوية:</strong> سحب ونزول للصفر يعني قفل حماية (Trip Protection) على أحد ملفات الـ Buck أو الـ RAM.`;
+          res.style.borderRightColor = 'var(--warn)';
+        } else {
+          res.innerHTML = `<strong style="color:var(--succ)">سحب إقلاع طبيعي:</strong> تأرجح بين 0.2A إلى 1.1A يدل على إقلاع النظام، وإذا كانت الشاشة سوداء فالمشكلة في دائرة الإضاءة أو البيانات.`;
+          res.style.borderRightColor = 'var(--succ)';
+        }
+      }
+    }
+
+    // Binary Safety Logic
+    function checkBinarySafety() {
+      const cur = parseInt(document.getElementById('current-binary').value);
+      const fw = document.getElementById('target-firmware').value.trim();
+      const res = document.getElementById('binary-result');
+
+      // Regex to extract binary from Samsung PDA (5th character from the end)
+      const match = fw.match(/([A-Z0-9]{4})([0-9])([A-Z0-9]{3,4})$/i);
+      let targetBinary = null;
+      if (match && match[2]) {
+        targetBinary = parseInt(match[2]);
+      } else {
+        const fallback = fw.match(/U([0-9])|S([0-9])/i);
+        if (fallback) targetBinary = parseInt(fallback[1] || fallback[2]);
+      }
+
+      if (targetBinary === null || isNaN(targetBinary)) {
+        res.innerHTML = `⚠️ لم نتمكن من تحديد الباينري تلقائياً من اسم الفلاشة. تأكد من إدخال اسم ملف AP/PDA الرسمي.`;
+        res.style.borderRightColor = 'var(--warn)';
+        return;
+      }
+
+      if (targetBinary > cur) {
+        res.innerHTML = `<strong style="color:var(--succ)">تفليش آمن ومسموح (ترقية Upgrade):</strong> باينري الفلاشة (<strong>${targetBinary}</strong>) أعلى من باينري الجهاز (<strong>${cur}</strong>). سيكتمل التفليش بنجاح.`;
+        res.style.borderRightColor = 'var(--succ)';
+      } else if (targetBinary === cur) {
+        res.innerHTML = `<strong style="color:var(--succ)">تفليش آمن ومسموح (تطابق نفس الإصدار):</strong> باينري الفلاشة (<strong>${targetBinary}</strong>) مطابق لباينري الجهاز (<strong>${cur}</strong>). ممتاز لإصلاح مشاكل السوفتوير.`;
+        res.style.borderRightColor = 'var(--succ)';
+      } else {
+        res.innerHTML = `<strong style="color:var(--crit)">خطر شديد — ممنوع التفليش (Downgrade Brick):</strong> باينري الفلاشة (<strong>${targetBinary}</strong>) أقل من باينري الجهاز (<strong>${cur}</strong>)! سيحدث خطأ (SW REV CHECK FAIL: DEVICE ${cur}, BINARY ${targetBinary}) وقد يتوقف الهاتف نهائياً.`;
+        res.style.borderRightColor = 'var(--crit)';
+      }
+    }
+
+    // Handle AI Diagnosis
     async function handleSend(e) {
       e.preventDefault();
       const input = document.getElementById('user-input');
       const text = input.value.trim();
-
       if (!text) return;
 
       appendMessage(text, 'user');
@@ -299,28 +333,19 @@ Operate strictly according to these protocols:
         const response = await fetch('/api/diagnose', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text: text,
-            systemPrompt: SYSTEM_PROMPT
-          })
+          body: JSON.stringify({ text: text, systemPrompt: SYSTEM_PROMPT })
         });
 
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || `خطأ استجابة (${response.status})`);
-        }
+        if (!response.ok) throw new Error(data.error || 'خطأ استجابة من الخادم');
 
         let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!rawText) throw new Error("لم يتم استلام نص صالح من النموذج.");
-
         rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(rawText);
         appendReport(parsed);
 
       } catch (err) {
         appendError(err.message);
-        console.error(err);
       } finally {
         loader.style.display = 'none';
       }
@@ -339,14 +364,8 @@ Operate strictly according to these protocols:
       const container = document.getElementById('chat-container');
       const div = document.createElement('div');
       div.className = 'bubble bubble-ai';
-      div.innerHTML = `
-        <div class="error-box">
-          <strong>⚠️ خطأ في معالجة الطلب:</strong><br>
-          ${msg}
-        </div>
-      `;
+      div.innerHTML = `<strong style="color:var(--crit)">⚠️ تعذر استكمال التشخيص:</strong> ${msg}`;
       container.appendChild(div);
-      container.scrollTop = container.scrollHeight;
     }
 
     function appendReport(res) {
@@ -354,76 +373,51 @@ Operate strictly according to these protocols:
       const div = document.createElement('div');
       div.className = 'bubble bubble-ai';
 
-      const hasFw = res.official_firmware_link && res.official_firmware_link.startsWith('http');
-
       div.innerHTML = `
-        <div class="report-card">
-          <div class="report-header">
-            <div>
-              <div class="dev-title">${res.brand || ''} ${res.marketing_name || ''}</div>
-              <div class="dev-meta">الموديل: <strong>${res.model_input || 'غير محدد'}</strong> | النظام: ${res.android_version || 'غير محدد'} | الحماية: ${res.security_level || 'غير محدد'}</div>
-            </div>
-            ${hasFw ? `<a href="${res.official_firmware_link}" target="_blank" class="fw-link-btn">🔗 فلاشة رسمية (${res.firmware_source || 'المصدر'})</a>` : ''}
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="border-bottom:1px solid var(--border); padding-bottom:8px;">
+            <div style="font-size:1.15rem; font-weight:800; color:var(--accent);">${res.brand || ''} ${res.marketing_name || ''} (${res.model_input || ''})</div>
+            <div style="font-size:0.78rem; color:var(--text-muted);">المعالج: ${res.chipset || 'غير محدد'}</div>
           </div>
 
-          <div class="grid-info">
-            <div class="info-item"><span>المعالج (SoC / Chipset)</span><strong>${res.chipset || 'غير مؤكد'}</strong></div>
-            <div class="info-item"><span>معمارية الأنوية (CPU)</span><strong>${res.cpu || 'غير مؤكد'}</strong></div>
-            <div class="info-item"><span>نوع الذاكرة (Storage)</span><strong>${res.storage || 'غير مؤكد'}</strong></div>
-            <div class="info-item"><span>التوجيه والمنطقة (Region)</span><strong>${res.variant_region || 'عالمي / غير محدد'}</strong></div>
+          <div class="grid-4">
+            <div class="stat-card"><span>سلوك سحب الباور</span><strong>${res.dc_current_behavior || 'غير محدد'}</strong></div>
+            <div class="stat-card"><span>حرارة الهوت إير واللحام</span><strong>${res.cpu_ram_temp || '340°C - 360°C'}</strong></div>
           </div>
 
           ${res.risk_warning ? `
-            <div class="risk-banner">
-              <strong>⚠️ تحذير هندسي عالي الأهمية:</strong> ${res.risk_warning}
-            </div>
-          ` : ''}
-
-          ${res.diagnostic_sequence ? `
-            <div>
-              <div class="section-title">🧭 تسلسل خطوات الفحص والتشخيص (Diagnostic Sequence)</div>
-              <div class="proc-box" style="white-space: pre-line;">${res.diagnostic_sequence}</div>
+            <div style="background:rgba(239,68,68,0.12); border-right:4px solid var(--crit); padding:10px; border-radius:6px; font-size:0.85rem; color:#fca5a5;">
+              <strong>⚠️ تحذيرات السلامة والباينري:</strong> ${res.risk_warning}
             </div>
           ` : ''}
 
           <div>
-            <div class="section-title">⚡ المسارات والحلول الهندسية</div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              ${res.power_repair ? `<div class="proc-box"><strong>🔋 تشخيص الباور والإقلاع:</strong><br>${res.power_repair}</div>` : ''}
-              ${res.charging_repair ? `<div class="proc-box"><strong>🔌 دائرة الشحن والـ VBUS:</strong><br>${res.charging_repair}</div>` : ''}
-              ${res.flashing ? `<div class="proc-box"><strong>💻 السوفتوير والتفليش:</strong><br>${res.flashing}</div>` : ''}
-              ${res.screen_repair ? `<div class="proc-box"><strong>📱 الشاشة والبيانات:</strong><br>${res.screen_repair}</div>` : ''}
-              ${res.network_repair ? `<div class="proc-box"><strong>🌐 الشبكة والبيسباند:</strong><br>${res.network_repair}</div>` : ''}
-              ${res.frp_official ? `<div class="proc-box"><strong>🔐 حماية FRP الرسمية:</strong><br>${res.frp_official}</div>` : ''}
+            <div class="sec-header">⚡ الفحص الهاردوير والممانعات (Diode Mode & Rails)</div>
+            <div class="detail-card">
+              <strong>قيم الممانعات:</strong><br>${res.diode_mode_values || 'غير محددة'}<br><br>
+              <strong>خطوات الصيانة والمسارات:</strong><br>${res.hardware_solution || ''}
             </div>
           </div>
 
-          ${res.common_faults ? `
+          ${res.software_solution ? `
             <div>
-              <div class="section-title">🔍 أعطال شائعة لهذا الموديل</div>
-              <div class="proc-box">${res.common_faults}</div>
+              <div class="sec-header">💻 بروتوكول السوفتوير والتفليش</div>
+              <div class="detail-card">${res.software_solution}</div>
             </div>
           ` : ''}
 
-          ${res.tools_needed ? `
-            <div>
-              <div class="section-title">🧰 الأدوات الهندسية المطلوبة</div>
-              <div class="proc-box" style="color:#cbd5e1;">${res.tools_needed}</div>
-            </div>
-          ` : ''}
-
-          ${res.customer_message ? `
-            <div>
-              <div class="section-title">💬 مسودة رسالة للعميل</div>
-              <div class="cust-msg">${res.customer_message}</div>
-            </div>
-          ` : ''}
+          <div style="font-size:0.78rem; color:var(--text-muted);">
+            🧰 <strong>الأدوات الموصى بها:</strong> ${res.tools_needed || 'ملتيميتر، هوت إير، باور سبلاي'}
+          </div>
         </div>
       `;
-
       container.appendChild(div);
       container.scrollTop = container.scrollHeight;
     }
+
+    // Initialize tools on page load
+    analyzeDC();
+    checkBinarySafety();
   </script>
 </body>
 </html>
