@@ -1,4 +1,23 @@
 export default async function handler(req, res) {
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ 
+      error: 'مفتاح GEMINI_API_KEY غير موجود في إعدادات Vercel Environment Variables.' 
+    });
+  }
+
+  // ميزة استعراض النماذج النشطة المتاحة لمفتاحك
+  if (req.method === 'GET') {
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+      const data = await response.json();
+      return res.status(response.status).json(data);
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
@@ -8,13 +27,6 @@ export default async function handler(req, res) {
     try { body = JSON.parse(body); } catch (e) { body = {}; }
   }
   body = body || {};
-
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ 
-      error: 'مفتاح GEMINI_API_KEY غير موجود في إعدادات Vercel Environment Variables.' 
-    });
-  }
 
   const { context, text, measurements, systemPrompt } = body;
 
@@ -31,16 +43,18 @@ export default async function handler(req, res) {
     ? systemPrompt.trim()
     : defaultPrompt;
 
-  // تنويع أجيال النماذج لتفادي مراكز البيانات المزدحمة في نفس اللحظة
+  // نماذج فائقة السرعة وعالية السعة لتخطي ذروة الطلب
   const candidateModels = [
-    'gemini-2.5-flash',
-    'gemini-2.0-flash',
+    'gemini-1.5-flash-8b',
     'gemini-1.5-flash',
-    'gemini-3.5-flash'
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash',
+    'gemini-3.5-flash',
+    'gemini-3.5-flash-lite'
   ];
 
+  const attempts = [];
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  let lastError = null;
 
   for (const model of candidateModels) {
     try {
@@ -67,19 +81,21 @@ export default async function handler(req, res) {
       const data = await response.json();
 
       if (!response.ok) {
-        lastError = data.error?.message || `HTTP ${response.status}`;
-        console.warn(`[Model ${model}]:`, lastError);
-        // تأخير ثانية ونصف قبل تجربة السيرفر التالي لتفريغ الضغط
-        await sleep(1500);
+        const msg = data.error?.message || `HTTP ${response.status}`;
+        attempts.push({ model, status: response.status, error: msg });
+        await sleep(1000);
         continue;
       }
 
       return res.status(200).json(data);
     } catch (err) {
-      lastError = err.message;
+      attempts.push({ model, error: err.message });
       await sleep(1000);
     }
   }
 
-  return res.status(500).json({ error: lastError || 'تعذر الاتصال بجميع خوادم الذكاء الاصطناعي حالياً.' });
+  return res.status(503).json({ 
+    error: 'خوادم الفئة المجانية تشهد ذروة ضغط مؤقتة حالياً.',
+    attempts 
+  });
 }
