@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // ميزة استعراض النماذج النشطة المتاحة لمفتاحك
   if (req.method === 'GET') {
     try {
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
@@ -43,18 +42,16 @@ export default async function handler(req, res) {
     ? systemPrompt.trim()
     : defaultPrompt;
 
-  // نماذج فائقة السرعة وعالية السعة لتخطي ذروة الطلب
+  // النماذج المؤكدة والنشطة رسمياً في حسابك
   const candidateModels = [
-    'gemini-1.5-flash-8b',
-    'gemini-1.5-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-2.0-flash',
-    'gemini-3.5-flash',
-    'gemini-3.5-flash-lite'
+    'gemini-2.5-flash-lite',
+    'gemini-flash-lite-latest',
+    'gemini-2.5-flash',
+    'gemini-3.1-flash-lite',
+    'gemini-flash-latest'
   ];
 
-  const attempts = [];
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  let lastError = null;
 
   for (const model of candidateModels) {
     try {
@@ -81,21 +78,15 @@ export default async function handler(req, res) {
       const data = await response.json();
 
       if (!response.ok) {
-        const msg = data.error?.message || `HTTP ${response.status}`;
-        attempts.push({ model, status: response.status, error: msg });
-        await sleep(1000);
+        lastError = data.error?.message || `HTTP ${response.status}`;
         continue;
       }
 
       return res.status(200).json(data);
     } catch (err) {
-      attempts.push({ model, error: err.message });
-      await sleep(1000);
+      lastError = err.message;
     }
   }
 
-  return res.status(503).json({ 
-    error: 'خوادم الفئة المجانية تشهد ذروة ضغط مؤقتة حالياً.',
-    attempts 
-  });
+  return res.status(500).json({ error: lastError || 'تعذر الاتصال بخوادم الذكاء الاصطناعي.' });
 }
