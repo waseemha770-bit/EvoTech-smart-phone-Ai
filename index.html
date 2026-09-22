@@ -27,27 +27,26 @@
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
     }
-    .logo-area { display: flex; align-items: center; gap: 10px; }
-    .logo-area h1 { font-size: 1.15rem; font-weight: 800; color: var(--accent-blue); letter-spacing: -0.5px; }
-    .api-box { display: flex; gap: 8px; align-items: center; }
-    .api-box input {
-      background: #070a12;
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      width: 220px;
-      outline: none;
-      transition: border 0.2s;
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-area h1 { font-size: 1.2rem; font-weight: 800; color: var(--accent-blue); }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
     }
-    .api-box input:focus { border-color: var(--accent-blue); }
+    .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 6px #22c55e; }
 
     #chat-container {
       flex: 1;
@@ -59,7 +58,7 @@
     }
 
     .bubble {
-      max-width: 90%;
+      max-width: 92%;
       padding: 14px 18px;
       border-radius: 14px;
       font-size: 0.95rem;
@@ -76,7 +75,7 @@
       border: 1px solid var(--border);
       align-self: flex-end;
       width: 100%;
-      max-width: 840px;
+      max-width: 860px;
       border-bottom-left-radius: 2px;
     }
 
@@ -101,9 +100,7 @@
       text-decoration: none;
       font-weight: 700;
       white-space: nowrap;
-      transition: 0.2s;
     }
-    .fw-link-btn:hover { background: var(--accent-blue); color: #000; }
 
     .grid-info {
       display: grid;
@@ -217,15 +214,16 @@
         <p style="font-size:0.75rem; color:var(--text-muted);">مساعد هندسي لتشخيص وصيانة الهواتف الذكية</p>
       </div>
     </div>
-    <div class="api-box">
-      <input type="password" id="api-key" placeholder="ألصق المفتاح هنا (يبدأ بـ AQ...)" />
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      خادم وسيط آمن (Cloud Active)
     </div>
   </header>
 
   <div id="chat-container">
     <div class="bubble bubble-ai">
-      👋 مرحباً بك يا بشمهندس. النظام مهيأ لتشخيص أعطال الدوائر الإلكترونية، الباور، الشحن، السوفتوير، وتفليش الهواتف وفق بروتوكولات هندسية دقيقة.<br>
-      ضع رقم الموديل المكتوب على الشاسيه أو اللوحة مع الأعراض المشاهدة للبدء.
+      👋 مرحباً بك يا بشمهندس. المحرك السحابي متصل بالكامل ومجهز لتشخيص الأعطال، استخراج مسارات الباور، الشحن، الشبكة، ومخططات السوفتوير الرسمية.<br>
+      اكتب موديل الجهاز والعطل للبدء فوراً.
     </div>
   </div>
 
@@ -280,10 +278,6 @@ Operate strictly according to these protocols:
   "customer_message": ""
 }`;
 
-    const apiKeyInput = document.getElementById('api-key');
-    apiKeyInput.value = localStorage.getItem('evotech_api_key') || '';
-    apiKeyInput.addEventListener('change', () => localStorage.setItem('evotech_api_key', apiKeyInput.value.trim()));
-
     function setQuery(text) {
       document.getElementById('user-input').value = text;
       document.getElementById('user-input').focus();
@@ -293,79 +287,43 @@ Operate strictly according to these protocols:
       e.preventDefault();
       const input = document.getElementById('user-input');
       const text = input.value.trim();
-      const key = apiKeyInput.value.trim();
 
       if (!text) return;
-      if (!key) {
-        alert('يرجى لصق مفتاح Gemini API Key في الحقل العلوي أولاً.');
-        apiKeyInput.focus();
-        return;
-      }
 
       appendMessage(text, 'user');
       input.value = '';
       const loader = document.getElementById('loader');
       loader.style.display = 'block';
 
-      // النماذج المعتمدة رسمياً لحسابك
-      const candidateModels = [
-        'gemini-3.6-flash',
-        'gemini-flash-latest'
-      ];
+      try {
+        const response = await fetch('/api/diagnose', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: text,
+            systemPrompt: SYSTEM_PROMPT
+          })
+        });
 
-      let lastError = null;
-      let success = false;
+        const data = await response.json();
 
-      for (const modelName of candidateModels) {
-        try {
-          loader.innerText = `⏳ جارٍ الفحص عبر السيرفر (${modelName})...`;
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
-
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'X-goog-api-key': key
-            },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: text }] }],
-              system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-              generationConfig: {
-                response_mime_type: "application/json"
-              }
-            })
-          });
-
-          const data = await response.json();
-
-          if (!response.ok) {
-            const errMsg = data.error?.message || `خطأ ${response.status}`;
-            lastError = errMsg;
-            console.warn(`تعذر الاتصال بـ ${modelName}: ${errMsg}`);
-            continue;
-          }
-
-          let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!rawText) throw new Error("لم يتم استلام نص صالح من النموذج.");
-
-          rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
-          const parsed = JSON.parse(rawText);
-          appendReport(parsed);
-          success = true;
-          break;
-
-        } catch (err) {
-          lastError = err.message;
-          console.warn(`خطأ أثناء معالجة ${modelName}:`, err);
+        if (!response.ok) {
+          throw new Error(data.error || `خطأ استجابة (${response.status})`);
         }
-      }
 
-      if (!success) {
-        appendError(lastError || "تعذر إتمام الفحص. تأكد من تشغيل الـ VPN والمحاولة مجدداً.");
-      }
+        let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!rawText) throw new Error("لم يتم استلام نص صالح من النموذج.");
 
-      loader.innerText = '⏳ جارٍ فحص مسارات الدوائر وتوليد التقرير الهندسي...';
-      loader.style.display = 'none';
+        rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+        const parsed = JSON.parse(rawText);
+        appendReport(parsed);
+
+      } catch (err) {
+        appendError(err.message);
+        console.error(err);
+      } finally {
+        loader.style.display = 'none';
+      }
     }
 
     function appendMessage(text, type) {
@@ -383,9 +341,8 @@ Operate strictly according to these protocols:
       div.className = 'bubble bubble-ai';
       div.innerHTML = `
         <div class="error-box">
-          <strong>⚠️ تنبيه حول الاتصال بالخدمة:</strong><br>
-          ${msg}<br><br>
-          <small style="color:#cbd5e1;">ملاحظة: تأكد من تفعيل تطبيق VPN واختيار سيرفر (أمريكا أو أوروبا) لضمان استقرار الاتصال.</small>
+          <strong>⚠️ خطأ في معالجة الطلب:</strong><br>
+          ${msg}
         </div>
       `;
       container.appendChild(div);
