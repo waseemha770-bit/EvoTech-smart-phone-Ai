@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { text, systemPrompt } = req.body;
+  const { context, text, measurements, systemPrompt } = req.body || {};
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -12,16 +12,30 @@ export default async function handler(req, res) {
     });
   }
 
-  if (!text) {
-    return res.status(400).json({ error: 'نص الفحص مطلوب.' });
+  // بناء نص الاستفسار حتى لو أُرسل عبر كائن context أو measurements
+  let queryText = text || '';
+  if (!queryText && context) {
+    queryText = `Device: ${JSON.stringify(context)}, Measurements: ${JSON.stringify(measurements || [])}`;
   }
 
-  // أحدث نماذج معتمدة وخفيفة جداً لتفادي ضغط الخوادم
+  if (!queryText.trim()) {
+    return res.status(400).json({ error: 'نص الفحص أو بيانات الجهاز مطلوبة.' });
+  }
+
+  // تعليمات افتراضية تلزم النموذج بالرد بصيغة JSON دائماً حتى لو لم يُرسل systemPrompt
+  const DEFAULT_SYSTEM_PROMPT = `You are EvoTech AI, an elite smartphone hardware & firmware engineering workbench assistant.
+Analyze technical measurements, diode mode values, boot currents, and device symptoms.
+Never hallucinate unverified schematics or fake pinouts.
+All technical reasoning in English, final response strictly in valid RFC 8259 JSON in Arabic.`;
+
+  const activeSystemPrompt = (typeof systemPrompt === 'string' && systemPrompt.trim().length > 0)
+    ? systemPrompt.trim()
+    : DEFAULT_SYSTEM_PROMPT;
+
   const candidateModels = [
     'gemini-3.5-flash-lite',
     'gemini-3.1-flash-lite',
     'gemini-3.5-flash',
-    'gemini-3.7-flash',
     'gemini-3.6-flash'
   ];
 
@@ -38,10 +52,11 @@ export default async function handler(req, res) {
           'X-goog-api-key': apiKey
         },
         body: JSON.stringify({
-          contents: [{ parts: [{ text }] }],
-          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ parts: [{ text: queryText }] }],
+          system_instruction: { parts: [{ text: activeSystemPrompt }] },
           generationConfig: {
-            response_mime_type: 'application/json'
+            response_mime_type: 'application/json',
+            temperature: 0.2
           }
         })
       });
