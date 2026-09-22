@@ -1,8 +1,10 @@
-const CACHE_NAME = 'evotech-cache-v3';
+const CACHE_NAME = 'evotech-pwa-v4-purge';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
@@ -17,7 +19,10 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys.map((k) => {
-          if (k !== CACHE_NAME) return caches.delete(k);
+          if (k !== CACHE_NAME) {
+            console.log('Purging old cache:', k);
+            return caches.delete(k);
+          }
         })
       )
     )
@@ -26,22 +31,8 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // تمرير طلبات الـ API مباشرة للإنترنت دون كاش
-  if (e.request.url.includes('/api/')) {
-    return;
-  }
+  if (e.request.url.includes('/api/')) return;
   e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // تحديث الكاش في الخلفية (Stale-While-Revalidate)
-        fetch(e.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(e.request, networkResponse));
-          }
-        }).catch(() => {});
-        return cachedResponse;
-      }
-      return fetch(e.request);
-    })
+    caches.match(e.request).then((res) => res || fetch(e.request))
   );
 });
