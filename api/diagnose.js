@@ -3,14 +3,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // تفكيك آمن لجسم الطلب مهما كان نوعه
   let body = req.body;
   if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch (e) {
-      body = {};
-    }
+    try { body = JSON.parse(body); } catch (e) { body = {}; }
   }
   body = body || {};
 
@@ -36,13 +31,15 @@ export default async function handler(req, res) {
     ? systemPrompt.trim()
     : defaultPrompt;
 
+  // تنويع أجيال النماذج لتفادي مراكز البيانات المزدحمة في نفس اللحظة
   const candidateModels = [
-    'gemini-3.5-flash-lite',
-    'gemini-3.1-flash-lite',
-    'gemini-3.5-flash',
-    'gemini-3.6-flash'
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash',
+    'gemini-3.5-flash'
   ];
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   let lastError = null;
 
   for (const model of candidateModels) {
@@ -71,14 +68,18 @@ export default async function handler(req, res) {
 
       if (!response.ok) {
         lastError = data.error?.message || `HTTP ${response.status}`;
+        console.warn(`[Model ${model}]:`, lastError);
+        // تأخير ثانية ونصف قبل تجربة السيرفر التالي لتفريغ الضغط
+        await sleep(1500);
         continue;
       }
 
       return res.status(200).json(data);
     } catch (err) {
       lastError = err.message;
+      await sleep(1000);
     }
   }
 
-  return res.status(500).json({ error: lastError || 'تعذر الاتصال بجميع خوادم الذكاء الاصطناعي.' });
+  return res.status(500).json({ error: lastError || 'تعذر الاتصال بجميع خوادم الذكاء الاصطناعي حالياً.' });
 }
