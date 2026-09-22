@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'الطريقة غير مسموحة (Method Not Allowed)' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   const { text, systemPrompt } = req.body;
@@ -8,12 +8,12 @@ export default async function handler(req, res) {
 
   if (!apiKey) {
     return res.status(500).json({ 
-      error: 'مفتاح GEMINI_API_KEY غير مضبوط في Environment Variables داخل لوحة تحكم Vercel.' 
+      error: 'مفتاح GEMINI_API_KEY غير موجود في إعدادات Vercel Environment Variables.' 
     });
   }
 
   if (!text) {
-    return res.status(400).json({ error: 'يرجى كتابة تفاصيل الموديل والعطل.' });
+    return res.status(400).json({ error: 'نص الفحص مطلوب.' });
   }
 
   const candidateModels = [
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
       const data = await response.json();
 
       if (!response.ok) {
-        lastError = data.error?.message || `خطأ استجابة HTTP ${response.status}`;
+        lastError = data.error?.message || `HTTP ${response.status}`;
         continue;
       }
 
@@ -57,5 +57,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(500).json({ error: lastError || 'تعذر الاتصال بجميع خوادم الذكاء الاصطناعي حالياً.' });
+  return res.status(500).json({ error: lastError || 'تعذر الاتصال بخوادم الذكاء الاصطناعي.' });
 }
