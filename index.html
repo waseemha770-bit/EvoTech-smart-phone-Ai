@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#0b1120">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>EvoTech AI — محطة الفلاشات والصيانة الهندسية</title>
+  <title>EvoTech AI — المنصة الهندسية المتقدمة لصيانة وبرمجة الهواتف</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/svg+xml" href="/icon.svg">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #060911;
+      --bg: #070c18;
       --card-bg: #0f172a;
       --panel-bg: #162032;
       --border: #233149;
@@ -26,7 +26,6 @@
       --succ: #10b981;
       --purple: #a855f7;
       --yt-red: #ff0000;
-      --tg-blue: #229ed9;
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -36,7 +35,7 @@
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 10px 14px;
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -44,10 +43,10 @@
       top: 0;
       z-index: 100;
     }
-    .brand-block { display: flex; align-items: center; gap: 8px; }
-    .brand-icon { font-size: 1.3rem; background: rgba(56, 189, 248, 0.1); padding: 5px 8px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.2); }
-    .brand-text h1 { font-size: 1.05rem; font-weight: 900; color: var(--accent); }
-    .brand-text span { font-size: 0.68rem; color: var(--text-muted); display: block; }
+    .brand-block { display: flex; align-items: center; gap: 10px; }
+    .brand-icon { font-size: 1.35rem; background: rgba(56, 189, 248, 0.12); padding: 5px 9px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.25); }
+    .brand-text h1 { font-size: 1.1rem; font-weight: 900; color: var(--accent); letter-spacing: -0.3px; }
+    .brand-text span { font-size: 0.68rem; color: var(--text-muted); display: block; font-weight: 500; }
 
     .header-actions { display: flex; align-items: center; gap: 8px; }
     .pwa-btn {
@@ -61,22 +60,24 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      transition: 0.2s;
     }
+    .pwa-btn:hover { background: var(--accent); color: #070a12; }
     .net-badge { font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
     .net-online { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
 
-    /* Sticky Navigation */
+    /* Modern Corporate Navigation */
     nav {
-      background: #090e1a;
+      background: #090f1d;
       border-bottom: 1px solid var(--border);
       display: flex;
       overflow-x: auto;
-      padding: 6px 8px;
+      padding: 7px 10px;
       gap: 6px;
       scrollbar-width: none;
       position: sticky;
-      top: 53px;
+      top: 55px;
       z-index: 90;
     }
     nav::-webkit-scrollbar { display: none; }
@@ -84,25 +85,27 @@
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      padding: 7px 12px;
+      padding: 8px 13px;
       border-radius: 8px;
-      font-size: 0.78rem;
+      font-size: 0.79rem;
       font-weight: 800;
       white-space: nowrap;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       flex-shrink: 0;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
+    .nav-btn:hover { color: #fff; background: rgba(255,255,255,0.03); }
     .nav-btn.active {
       background: var(--card-bg);
       border-color: var(--border);
       color: var(--accent);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
 
-    main { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 14px; max-width: 1100px; margin: 0 auto; width: 100%; }
+    main { flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 14px; max-width: 1120px; margin: 0 auto; width: 100%; }
     .tab-section { display: none; flex-direction: column; gap: 12px; width: 100%; }
     .tab-section.active { display: flex; }
 
@@ -111,21 +114,21 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 14px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-    .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .card-title { font-size: 0.95rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 6px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 9px; }
+    .card-title { font-size: 0.96rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 6px; }
 
     .grid-fluid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; width: 100%; }
-    .grid-cols-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; width: 100%; }
+    .grid-cols-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; width: 100%; }
 
     .field-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
     .field-label { font-size: 0.74rem; color: var(--text-muted); font-weight: 700; }
     .field-input, .field-select {
-      background: #080d1a;
+      background: #090e1a;
       border: 1px solid var(--border);
       color: #fff;
       padding: 10px 12px;
@@ -158,9 +161,9 @@
     /* Tables */
     .table-responsive { width: 100%; overflow-x: auto; }
     .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: right; }
-    .data-table th, .data-table td { padding: 9px 11px; border: 1px solid var(--border); }
+    .data-table th, .data-table td { padding: 9px 12px; border: 1px solid var(--border); }
     .data-table th { background: #080d1a; color: var(--accent); font-weight: 800; white-space: nowrap; }
-    .data-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+    .data-table tr:nth-child(even) { background: rgba(255,255,255,0.015); }
 
     /* Badges */
     .hub-badge {
@@ -179,8 +182,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 9px 12px;
-      background: #080d1a;
+      padding: 10px 12px;
+      background: #090e1a;
       border: 1px solid var(--border);
       border-radius: 8px;
       text-decoration: none;
@@ -188,7 +191,7 @@
       font-size: 0.82rem;
       transition: 0.2s;
     }
-    .link-item:hover { border-color: var(--accent); background: #131d30; color: #fff; transform: translateY(-1px); }
+    .link-item:hover { border-color: var(--accent); background: #121a2c; color: #fff; transform: translateY(-1px); }
     .link-title { font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 6px; }
     .link-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
 
@@ -198,28 +201,27 @@
       color: #38bdf8;
       padding: 2px 6px;
       border-radius: 4px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       border: 1px solid rgba(56,189,248,0.2);
       direction: ltr;
       display: inline-block;
     }
 
-    .target-block {
-      background: #080d1a;
+    .info-box {
+      background: #090e1a;
       border: 1px solid var(--border);
       border-right: 4px solid var(--accent);
       border-radius: 8px;
       padding: 14px;
+      font-size: 0.86rem;
+      line-height: 1.65;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      line-height: 1.65;
-      font-size: 0.86rem;
     }
 
-    /* Firmware Result Box */
     .firmware-card {
-      background: #080d1a;
+      background: #090e1a;
       border: 1px solid rgba(168, 85, 247, 0.3);
       border-right: 4px solid var(--purple);
       border-radius: 10px;
@@ -228,21 +230,12 @@
       flex-direction: column;
       gap: 12px;
     }
-    .firmware-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
-    }
 
     @media (max-width: 600px) {
       header { padding: 8px 10px; }
       main { padding: 8px; }
-      .card { padding: 10px; }
-      .nav-btn { font-size: 0.74rem; padding: 6px 10px; }
+      .card { padding: 12px; }
+      .nav-btn { font-size: 0.74rem; padding: 7px 10px; }
     }
   </style>
 </head>
@@ -253,7 +246,7 @@
       <div class="brand-icon">⚡</div>
       <div class="brand-text">
         <h1>EvoTech AI</h1>
-        <span>محطة الفلاشات والصيانة الهندسية المتكاملة</span>
+        <span>المنصة الهندسية المتقدمة لصيانة وبرمجة الهواتف</span>
       </div>
     </div>
     <div class="header-actions">
@@ -264,19 +257,20 @@
     </div>
   </header>
 
-  <!-- Navigation -->
+  <!-- Formal Order of Modules -->
   <nav>
-    <button class="nav-btn active" onclick="switchTab('tab-firmware-engine')">💾 محدد الفلاشات والرومات الموجهة</button>
+    <button class="nav-btn active" onclick="switchTab('tab-firmware-engine')">💾 محدد الفلاشات والرومات</button>
+    <button class="nav-btn" onclick="switchTab('tab-binary-master')">🛡️ أكاديمية الباينري و ARB</button>
+    <button class="nav-btn" onclick="switchTab('tab-brands-atlas')">📱 أطلس الشركات (الصينية + LG)</button>
     <button class="nav-btn" onclick="switchTab('tab-ai-diag')">🎯 البحث الفني الذكي</button>
-    <button class="nav-btn" onclick="switchTab('tab-yemen-hub')">🇾🇪 المنصات اليمنية والعربية</button>
-    <button class="nav-btn" onclick="switchTab('tab-hardware-measure')">🔬 دليل قياس الأفوميتر</button>
+    <button class="nav-btn" onclick="switchTab('tab-yemen-hub')">🇾🇪 شبكات اليمن ومراجع GSM</button>
+    <button class="nav-btn" onclick="switchTab('tab-hardware-lab')">🔬 مختبر القياس بالأفوميتر والباور</button>
     <button class="nav-btn" onclick="switchTab('tab-secret-codes')">📟 قاموس الأكواد السرية</button>
-    <button class="nav-btn" onclick="switchTab('tab-software-tools')">💻 ملخص برامج السوفتوير</button>
   </nav>
 
   <main>
 
-    <!-- TAB: SMART FIRMWARE & REGIONAL CSC FINDER -->
+    <!-- TAB 1: SMART FIRMWARE & REGIONAL SELECTOR -->
     <section id="tab-firmware-engine" class="tab-section active">
       <div class="card">
         <div class="card-header">
@@ -284,31 +278,31 @@
           <span class="hub-badge badge-firm">دقيق وموجه 100%</span>
         </div>
 
-        <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.6;">
-          أدخل موديل الهاتف والمنطقة المستهدفة للحصول على <strong>اسم الفلاشة المناسبة، كود الـ CSC الأفضل، شروط حماية الباينري، وروابط التحميل المباشرة</strong> مع إمكانية تحويل الأجهزة الأمريكية المقفلة لتعمل على شبكات اليمن بكل سلاسة.
+        <div style="font-size:0.83rem; color:var(--text-muted); line-height:1.6;">
+          يدعم هواتف <strong>سامسونج، LG (أجهزة كوالكوم و CDMA الأمريكية)، وهواتف الشركات الصينية (شاومي، إنفينكس، تكنو، أوبو، فيفو)</strong> لاختيار الفلاشة السليمة مع حماية الباينري وتحويل الأجهزة لتعمل في اليمن.
         </div>
 
         <div class="grid-fluid">
           <div class="field-group">
-            <label class="field-label">موديل الجهاز الدقيق (Model Code):</label>
-            <input type="text" id="fw-model" class="field-input" placeholder="مثال: SM-G986U أو SM-A125F أو Redmi Note 10 Pro" />
+            <label class="field-label">موديل الهاتف الدقيق (Model Code):</label>
+            <input type="text" id="fw-model" class="field-input" placeholder="مثال: SM-G986U أو LG-LM-G710VM أو Infinix X688B" />
           </div>
 
           <div class="field-group">
             <label class="field-label">الهدف والمنطقة الموجهة إليها الفلاشة:</label>
             <select id="fw-region" class="field-select">
-              <option value="ye_arab_official" selected>🇾🇪 الشرق الأوسط واليمن (عربي رسمي + VoLTE + KSA/XSG)</option>
+              <option value="ye_arab_official" selected>🇾🇪 الشرق الأوسط واليمن (عربي رسمي + تفعيل VoLTE)</option>
               <option value="us_conversion">🇺🇸 تحويل سامسونج أمريكي من U إلى U1 المفتوح (CSC: XAA)</option>
-              <option value="xiaomi_call_record">📱 شاومي بروم إندونيسيا/تايوان (MIUI الأصلي مع مسجل المكالمات)</option>
-              <option value="xiaomi_global">🌐 شاومي روم عالمي رسمي (Global MI مع خدمات جوجل كاملة)</option>
-              <option value="call_recording">🎙️ سامسونج مع تفعيل تسجيل المكالمات التلقائي بدون روت</option>
-              <option value="unbrick_repair">🚑 فلاشة إصلاح وتفليش 4 ملفات كاملة بعد تعليق البوت (Unbrick)</option>
+              <option value="lg_kdz_official">📱 أجهزة LG: فلاشة رسمية KDZ مع فك الشفرة لـ Yemen Mobile</option>
+              <option value="chinese_transsion">🇨🇳 أجهزة صينية (Infinix / Tecno): فلاشة Scatter أو PAC رسمية</option>
+              <option value="xiaomi_call_record">📱 شاومي: روم إندونيسيا/تايوان (مع مسجل المكالمات الأصلي)</option>
+              <option value="unbrick_repair">🚑 فلاشة إصلاح كاملة بعد تعليق البوت أو التوقف على الشعار</option>
             </select>
           </div>
 
           <div class="field-group">
-            <label class="field-label">رقم باينري الجهاز الحالي (إن وُجد):</label>
-            <input type="number" id="fw-binary" class="field-input" placeholder="مثال: 3 أو 4 (اتركه فارغاً للتلقائي)" min="0" max="25" />
+            <label class="field-label">رقم باينري الجهاز الحالي (Binary / SW REV):</label>
+            <input type="number" id="fw-binary" class="field-input" placeholder="مثال: 3 (اتركه فارغاً للتلقائي)" min="0" max="25" />
           </div>
         </div>
 
@@ -317,22 +311,158 @@
         </button>
       </div>
 
-      <!-- Firmware Results Container -->
       <div id="firmware-results" style="display:flex; flex-direction:column; gap:12px;"></div>
     </section>
 
-    <!-- TAB: AI COMPREHENSIVE SEARCH -->
+    <!-- TAB 2: BINARY & ARB MASTER ACADEMY -->
+    <section id="tab-binary-master" class="tab-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🛡️ أكاديمية الباينري (Binary SW REV) ومؤشر Anti-Rollback</div>
+          <span class="hub-badge badge-firm">دليل الأمان الهندسي المعتمد</span>
+        </div>
+
+        <div class="info-box">
+          <strong style="color:var(--accent); font-size:0.95rem;">ما هو الباينري (Binary) في عالم صيانة وبرمجة الهواتف؟</strong>
+          الباينري هو <strong>مؤشر أمان إلكتروني غير قابل للتراجع (Hardware Fuse Counter)</strong> يتم برمجته وتثبيته في المعالج وذاكرة الهاتف بواسطة الشركات المصنعة (سامسونج، شاومي، كوالكوم، آبل). هدفه الأساسي منع تفليش إصدارات أندرويد قديمة (Downgrade) قد تحتوي على ثغرات أمنية تسمح بتخطي الحمايات أو قفل الشاشة وحسابات FRP.
+        </div>
+
+        <div class="grid-cols-2">
+          <!-- Samsung Binary Rule -->
+          <div style="background:#090e1a; border:1px solid var(--border); border-right:4px solid var(--primary); padding:12px; border-radius:8px; line-height:1.65; font-size:0.83rem;">
+            <strong style="color:var(--primary); font-size:0.9rem;">1. نظام الباينري في هواتف سامسونج (SW REV):</strong><br>
+            • <strong>مكانه في الفلاشة:</strong> يمثل الخانة الخامسة من اليمين في اسم ملف الـ AP (مثال: في فلاشة <code>A125FXXU<b>3</b>CVL1</code>، الباينري هو <b>3</b>).<br>
+            • <strong>قوانين التفليش الإلزامية:</strong><br>
+            - باينري الفلاشة = باينري الجهاز (<b>مسموح ✅</b> لإصلاح السوفتوير).<br>
+            - باينري الفلاشة > باينري الجهاز (<b>مسموح ✅</b> لترقية وتحديث النظام).<br>
+            - باينري الفلاشة < باينري الجهاز (<b>ممنوع ومرفوض تماماً ⛔</b> - يعطي خطأ <code>SW REV CHECK FAIL</code>).<br>
+            • <strong>قراءته من وضع الداونلود:</strong> ابحث عن سطر <code>SW REV: B:3 K:3 S:3</code>، الرقم بعد B هو الباينري الفعلي.
+          </div>
+
+          <!-- Xiaomi & Qualcomm ARB Rule -->
+          <div style="background:#090e1a; border:1px solid var(--border); border-right:4px solid var(--warn); padding:12px; border-radius:8px; line-height:1.65; font-size:0.83rem;">
+            <strong style="color:var(--warn); font-size:0.9rem;">2. نظام الـ Anti-Rollback (ARB) في شاومي:</strong><br>
+            • في أجهزة شاومي وكوالكوم يسمى <b>Anti-Rollback (ARB)</b>.<br>
+            • <strong>التحذير القاتل:</strong> إذا كان الهاتف على مؤشر حماية <code>anti=4</code> وقام الفني بتفليش روم قديم على مؤشر <code>anti=3</code>، يموت الهاتف فوراً ويتوقف تماماً على شاشة سوداء مع بورت <b>EDL 9008</b> (Hard Brick).<br>
+            • <strong>أمر الفحص في وضع Fastboot:</strong><br>
+            <code class="code-tag">fastboot getvar anti</code>
+          </div>
+        </div>
+
+        <!-- Binary Calculator -->
+        <div style="background:#090e1a; border:1px solid var(--border); padding:14px; border-radius:8px;">
+          <div style="font-weight:800; color:var(--succ); font-size:0.88rem; margin-bottom:10px;">
+            🔬 حاسبة مطابقة باينري الفلاشة الفورية (تأكد قبل التفليش):
+          </div>
+          <div class="grid-fluid">
+            <div class="field-group">
+              <label class="field-label">باينري الجهاز الحالي (Device Binary):</label>
+              <input type="number" id="calc-cur-bin" class="field-input" value="3" min="0" max="25" oninput="runBinaryCheck()" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">اسم فلاشة AP أو رقم باينري الفلاشة:</label>
+              <input type="text" id="calc-target-ap" class="field-input" value="A125FXXU3CVL1" oninput="runBinaryCheck()" />
+            </div>
+          </div>
+          <div id="binary-eval-box" style="margin-top:10px; padding:10px; border-radius:6px; font-size:0.85rem; border:1px solid var(--border); line-height:1.6;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BRANDS ATLAS (CHINESE & LG MASTER) -->
+    <section id="tab-brands-atlas" class="tab-section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📱 أطلس الشركات المصنعة (الهواتف الصينية + أجهزة LG + سامسونج)</div>
+          <span class="hub-badge badge-soft">الدليل المرجعي لمعماريات الهواتف</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الماركة والشركة</th>
+                <th>المعالجات الشائعة</th>
+                <th>صيغة الفلاشة الرسمية</th>
+                <th>أداة التفليش المعتمدة</th>
+                <th>طريقة الدخول لوضع التفليش (Boot Mode)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- LG Phones -->
+              <tr style="background:rgba(168,85,247,0.04);">
+                <td><strong>LG (G/V/Stylo/Tribute)</strong></td>
+                <td>Qualcomm Snapdragon / MediaTek</td>
+                <td><span class="code-tag">.KDZ / .TOT / .DZ</span></td>
+                <td>برنامج <strong>LGUP (Patched Dual Mode)</strong> أو Octoplus LG</td>
+                <td><strong>Download Mode:</strong> إطفاء الجهاز تماماً، الضغط على <strong>رفع الصوت فقط</strong> مع توصيل كابل الـ USB.</td>
+              </tr>
+              <!-- Infinix / Tecno / Itel -->
+              <tr>
+                <td><strong>Transsion (Infinix, Tecno, Itel)</strong></td>
+                <td>MediaTek Helio (G88/G99) / Unisoc (SPD T606/T616)</td>
+                <td><span class="code-tag">MTK Scatter / SPD .PAC</span></td>
+                <td><strong>SP Flash Tool</strong> للمعالجات MTK أو <strong>ResearchDownload</strong> لـ SPD / Pandora</td>
+                <td>توصيل الجهاز مطفأ مع الضغط على خفض الصوت أو خفض+رفع الصوت معاً.</td>
+              </tr>
+              <!-- Oppo / Realme / OnePlus -->
+              <tr>
+                <td><strong>Oppo / Realme / OnePlus</strong></td>
+                <td>Qualcomm Snapdragon / MediaTek Dimensity</td>
+                <td><span class="code-tag">.OFP / .OPS</span></td>
+                <td>أداة <strong>MSM Download Tool</strong> مع Auth أو UnlockTool</td>
+                <td>وضع <strong>EDL 9008</strong> عبر توصيل نقطتي التيست بوينت (Test Point) أو كابل EDL.</td>
+              </tr>
+              <!-- Vivo / iQOO -->
+              <tr>
+                <td><strong>Vivo / iQOO</strong></td>
+                <td>Qualcomm / MediaTek</td>
+                <td><span class="code-tag">Fastboot ROM / Rawprogram0</span></td>
+                <td>أداة <strong>AFTool</strong> أو UnlockTool</td>
+                <td>وضع Fastboot عبر خفض الصوت والباور، أو وضع 9008 عبر نقاط التيست بوينت.</td>
+              </tr>
+              <!-- Huawei / Honor -->
+              <tr>
+                <td><strong>Huawei / Honor</strong></td>
+                <td>HiSilicon Kirin (710/980/990) / Qualcomm</td>
+                <td><span class="code-tag">Update.APP / Board Software</span></td>
+                <td>برنامج <strong>IDT Tool / Chimera / Sigmakey</strong></td>
+                <td>وضع <strong>USB COM 1.0</strong> بربط نقطة الـ Test Point بالأرضي وإدخال الكابل بدون بطارية.</td>
+              </tr>
+              <!-- Xiaomi -->
+              <tr>
+                <td><strong>Xiaomi / Redmi / POCO</strong></td>
+                <td>Qualcomm / MediaTek</td>
+                <td><span class="code-tag">Fastboot TGZ / Recovery ZIP</span></td>
+                <td>برنامج <strong>Mi Flash Tool</strong> (فاست بوت)</td>
+                <td>وضع <strong>Fastboot:</strong> خفض الصوت + الباور. وضع <strong>EDL:</strong> نقطتي تيست بوينت.</td>
+              </tr>
+              <!-- Samsung -->
+              <tr>
+                <td><strong>Samsung (Global & US)</strong></td>
+                <td>Exynos / Snapdragon / MTK</td>
+                <td><span class="code-tag">AP, BL, CP, CSC (TAR.MD5)</span></td>
+                <td>برنامج <strong>Odin3 v3.14.4</strong></td>
+                <td>وضع <strong>Download:</strong> رفع + خفض الصوت معاً مع إدخال كابل الـ USB والجهاز مطفأ.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SMART AI DIAGNOSTICS -->
     <section id="tab-ai-diag" class="tab-section">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🎯 الاستعلام الفني المباشر للموديل</div>
+          <div class="card-title">🎯 البحث الفني الذكي الشامل للموديل</div>
           <span style="font-size:0.72rem; color:var(--accent);">استجابة فورية</span>
         </div>
 
         <div class="grid-fluid">
           <div class="field-group">
-            <label class="field-label">موديل الجهاز الدقيق (Model Code):</label>
-            <input type="text" id="ai-model" class="field-input" placeholder="مثال: SM-A125F، Note 10 Pro، أو SM-G986U" />
+            <label class="field-label">موديل الهاتف الدقيق (Model Code):</label>
+            <input type="text" id="ai-model" class="field-input" placeholder="مثال: SM-A125F، LG-V405UA، أو Redmi Note 10" />
           </div>
 
           <div class="field-group">
@@ -352,7 +482,7 @@
 
         <div class="field-group">
           <label class="field-label">تفاصيل إضافية (اختياري):</label>
-          <input type="text" id="ai-fault-text" class="field-input" placeholder="مثال: ضبط ثري جي يمن موبايل، سحب 90mA، تخطي حماية Knox..." />
+          <input type="text" id="ai-fault-text" class="field-input" placeholder="مثال: ضبط يمن موبايل، سحب 90mA، فك شفرة شبكة LG..." />
         </div>
 
         <button class="btn" id="btn-run-ai" onclick="executePreciseSearch()">
@@ -363,25 +493,25 @@
       <div id="ai-stream-results" style="display:flex; flex-direction:column; gap:12px;"></div>
     </section>
 
-    <!-- TAB: YEMENI & ARAB PLATFORMS -->
+    <!-- TAB 5: YEMENI GSM HUBS & APN -->
     <section id="tab-yemen-hub" class="tab-section">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🇾🇪 المنصات والمجتمعات الهندسية اليمنية والعربية</div>
+          <div class="card-title">🇾🇪 شبكات اليمن والمراجع الهندسية المعتمدة</div>
           <span class="hub-badge badge-ye">مرجع الورشة المحلية</span>
         </div>
 
-        <div class="grid-cols-3">
+        <div class="grid-cols-2">
           <!-- Yemeni Specific Hubs -->
           <div style="display:flex; flex-direction:column; gap:8px;">
             <div style="font-size:0.85rem; font-weight:800; color:#f87171; border-bottom:1px solid var(--border); padding-bottom:4px;">
-              🇾🇪 قنوات ومراجع المهندسين والشبكات اليمنية
+              🇾🇪 مراجع الشبكات والمهندسين في اليمن
             </div>
 
             <a href="https://t.me/s/search?q=يمن+موبايل+برمجة" target="_blank" class="link-item">
               <div>
                 <div class="link-title"><span>🔍</span> محرك بحث قنوات يمن موبايل التفاعلي</div>
-                <div class="link-desc">البحث المباشر في تلجرام عن أحدث ملفات QCN وتفعيل 4G</div>
+                <div class="link-desc">البحث المباشر في تلجرام عن أحدث ملفات QCN وتفعيل 4G و VoLTE</div>
               </div>
               <span class="hub-badge badge-ye">بحث تلجرام</span>
             </a>
@@ -389,107 +519,64 @@
             <a href="https://www.youtube.com/results?search_query=صيانة+وهندسة+الهواتف+اليمن" target="_blank" class="link-item">
               <div>
                 <div class="link-title"><span>🇾🇪</span> أرشيف شروحات المهندسين في اليمن</div>
-                <div class="link-desc">شروحات تفعيل 4G يمن موبايل، فك شفرات الأجهزة الأمريكية</div>
+                <div class="link-desc">شروحات تفعيل 4G يمن موبايل، فك شفرات سامسونج و LG والأجهزة الصينية</div>
               </div>
               <span class="hub-badge badge-ye">YouTube</span>
             </a>
 
-            <a href="https://www.google.com/search?q=site:t.me+برمجة+يمن+موبايل+ملفات+PRL+QCN" target="_blank" class="link-item">
-              <div>
-                <div class="link-title"><span>📡</span> بنك ملفات الشبكات اليمنية (PRL / QCN)</div>
-                <div class="link-desc">روابط تحميل ملفات الشبكة المباشرة من قنوات تيليجرام المفتوحة</div>
-              </div>
-              <span class="hub-badge badge-ye">تحميل مباشر</span>
-            </a>
-          </div>
-
-          <!-- Major Arab Portals -->
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            <div style="font-size:0.85rem; font-weight:800; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:4px;">
-              🌐 كبرى قنوات وسيرفرات التيليجرام العاملة رسمياً
-            </div>
-
             <a href="https://t.me/halabtech" target="_blank" class="link-item">
               <div>
                 <div class="link-title"><span>💎</span> قناة حلب تك الرسمية (HalabTech)</div>
-                <div class="link-desc">أكبر قناة تليجرام عربية نشطة للفلاشات وحلول الأعطال اليومية</div>
+                <div class="link-desc">أكبر قناة تليجرام عربية نشطة للفلاشات والحلول المعتمدة</div>
               </div>
               <span class="hub-badge badge-soft">شغال 100%</span>
-            </a>
-
-            <a href="https://t.me/SamFW_Community" target="_blank" class="link-item">
-              <div>
-                <div class="link-title"><span>⚡</span> مجتمع أداة SamFW الرسمي</div>
-                <div class="link-desc">تحديثات أداة التعريب، ثغرات تخطي FRP، ومشاكل السوفتوير</div>
-              </div>
-              <span class="hub-badge badge-soft">شغال 100%</span>
-            </a>
-
-            <a href="https://t.me/easyfirmware" target="_blank" class="link-item">
-              <div>
-                <div class="link-title"><span>📁</span> قناة سيرفر Easy-Firmware</div>
-                <div class="link-desc">تحديثات ملفات الدامب والبوت وتفليش الهواتف الميتة</div>
-              </div>
-              <span class="hub-badge badge-soft">شغال 100%</span>
-            </a>
-
-            <a href="https://support.halabtech.com" target="_blank" class="link-item">
-              <div>
-                <div class="link-title"><span>🌐</span> سيرفر حلب تك (الموقع الرسمي)</div>
-                <div class="link-desc">تحميل فلاشات الكومبينيشن والرومات الرسمية والروت</div>
-              </div>
-              <span class="hub-badge badge-soft">سيرفر</span>
             </a>
           </div>
 
-          <!-- APN Settings -->
+          <!-- Yemeni APN Settings -->
           <div style="display:flex; flex-direction:column; gap:8px;">
             <div style="font-size:0.85rem; font-weight:800; color:var(--succ); border-bottom:1px solid var(--border); padding-bottom:4px;">
-              📶 ضبط نقاط الوصول (APN) لشبكات اليمن
+              📶 ضبط نقاط الوصول (APN) لشركات الاتصال في اليمن
             </div>
 
-            <div style="background:#080d1a; border:1px solid var(--border); padding:10px; border-radius:8px; font-size:0.78rem; line-height:1.6;">
-              <strong style="color:var(--accent);">🔴 يمن موبايل 4G / 3G:</strong><br>
+            <div style="background:#090e1a; border:1px solid var(--border); padding:10px; border-radius:8px; font-size:0.79rem; line-height:1.6;">
+              <strong style="color:var(--accent);">🔴 يمن موبايل 4G / 3G (Yemen Mobile):</strong><br>
               • APN للـ 4G: <code class="code-tag">ymdata</code><br>
               • APN للـ 3G/CDMA: <code class="code-tag">#777</code><br>
               • اسم المستخدم / المرور: <code class="code-tag">yemen</code> / <code class="code-tag">yemen</code><br>
               • نوع APN: <code class="code-tag">default,mms,supl</code>
             </div>
 
-            <div style="background:#080d1a; border:1px solid var(--border); padding:10px; border-radius:8px; font-size:0.78rem; line-height:1.6;">
-              <strong style="color:var(--warn);">🟡 يو (YOU Telecom):</strong><br>
-              • الـ APN: <code class="code-tag">mtn</code> أو <code class="code-tag">internet</code><br>
-              <strong style="color:#38bdf8;">🔵 سبأفون (Sabafon):</strong><br>
-              • الـ APN: <code class="code-tag">internet</code><br>
-              <strong style="color:#a855f7;">🟣 عدن نت (AdenNet):</strong><br>
-              • الـ APN: <code class="code-tag">adennet</code>
+            <div style="background:#090e1a; border:1px solid var(--border); padding:10px; border-radius:8px; font-size:0.79rem; line-height:1.6;">
+              <strong style="color:var(--warn);">🟡 يو (YOU 4G):</strong> الـ APN هو <code class="code-tag">mtn</code> أو <code class="code-tag">internet</code><br>
+              <strong style="color:#38bdf8;">🔵 سبأفون (Sabafon):</strong> الـ APN هو <code class="code-tag">internet</code><br>
+              <strong style="color:#a855f7;">🟣 عدن نت (AdenNet):</strong> الـ APN هو <code class="code-tag">adennet</code>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- TAB: MULTIMETER -->
-    <section id="tab-hardware-measure" class="tab-section">
+    <!-- TAB 6: HARDWARE LAB (MULTIMETER & DC POWER) -->
+    <section id="tab-hardware-lab" class="tab-section">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔬 الدليل الهندسي الميداني للقياس بالأفوميتر (Multimeter Master Guide)</div>
-          <span class="hub-badge badge-hard">فحص الهاردوير والممانعات</span>
+          <div class="card-title">🔬 مختبر القياس الهاردوير (الأفوميتر + سحب تيار الباور سبلاي)</div>
+          <span class="hub-badge badge-hard">دليل الفحص الميداني</span>
         </div>
 
-        <div style="font-size:0.84rem; line-height:1.65; color:#cbd5e1; background:#080d1a; border:1px solid var(--border); padding:12px; border-radius:8px;">
-          <strong>القاعدة الذهبية لقياس الممانعة العكسية (Diode Mode):</strong><br>
-          المجس الأحمر للأفوميتر على أرضي البوردة (GND)، والمجس الأسود على المسار المطلوب فحصه.
+        <div style="font-size:0.83rem; line-height:1.6; color:#cbd5e1; background:#090e1a; border:1px solid var(--border); padding:12px; border-radius:8px;">
+          <strong>القاعدة الذهبية لفحص الممانعة العكسية (Diode Mode):</strong> المجس الأحمر للأفوميتر على أرضي الشاسيه (GND)، والمجس الأسود على المسار المراد فحصه بالبوردة.
         </div>
 
         <div class="table-responsive">
           <table class="data-table">
             <thead>
               <tr>
-                <th>المسار / الكونكتر</th>
-                <th>وضع الأفوميتر</th>
+                <th>المسار / المكون</th>
+                <th>وضع القياس</th>
                 <th>القيمة الطبيعية المتوقعة</th>
-                <th>التشخيص في حال القراءة غير الطبيعية</th>
+                <th>التشخيص في حال القراءة الشاذة</th>
               </tr>
             </thead>
             <tbody>
@@ -497,7 +584,7 @@
                 <td><strong>خط البطارية (VBAT / VBUS)</strong></td>
                 <td>وضع الدايود (Diode)</td>
                 <td><span class="code-tag">350 - 550 mV</span></td>
-                <td>أقل من 50mV = شورت صريح في مكثف توازي أو آيسي الشحن/الباور. قراءة OL = المسار مقطوع.</td>
+                <td>أقل من 50mV = شورت صريح في مكثف رئيسي أو آيسي الشحن/الباور. قراءة OL = انقطاع المسار.</td>
               </tr>
               <tr>
                 <td><strong>خط الشحن VBUS (5V)</strong></td>
@@ -515,25 +602,40 @@
                 <td><strong>مسار مفتاح التشغيل (PWR_KEY)</strong></td>
                 <td>فولت مستمر (DC 20V)</td>
                 <td><span class="code-tag">1.8V أو 4.0V</span></td>
-                <td>غياب الفولت = تلف آيسي الباور الرئيسي PMIC أو انقطاع المسار من البوردة إلى المفتاح.</td>
-              </tr>
-              <tr>
-                <td><strong>خطوط شاشة العرض (MIPI DSI)</strong></td>
-                <td>وضع الدايود (Diode)</td>
-                <td><span class="code-tag">300 - 450 mV</span></td>
-                <td>جميع أزواج الداتا والساعة يجب أن تكون متقاربة. أي خط يعطي OL يسبب شاشة سوداء.</td>
+                <td>غياب الفولت = تلف آيسي الباور الرئيسي PMIC أو انقطاع المسار إلى كبسة الباور.</td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- DC Power Analyzer -->
+        <div style="background:#090e1a; border:1px solid var(--border); border-radius:8px; padding:12px; margin-top:8px;">
+          <div style="font-weight:800; color:var(--accent); font-size:0.88rem; margin-bottom:8px;">
+            ⚡ محلل سحب تيار الباور سبلاي (Offline DC Analyzer):
+          </div>
+          <div class="grid-fluid">
+            <div class="field-group">
+              <label class="field-label">مرحلة الفحص:</label>
+              <select id="dc-stage-select" class="field-select" onchange="runDCAnalysis()">
+                <option value="standby">قبل كبسة الباور (Standby Connect)</option>
+                <option value="trigger" selected>عند الضغط والتحرير (Power Trigger)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">قيمة السحب المستقرة (mA):</label>
+              <input type="number" id="dc-single-val" class="field-input" value="80" step="5" oninput="runDCAnalysis()" />
+            </div>
+          </div>
+          <div id="dc-report-box" style="margin-top:10px; background:#040711; border:1px solid var(--border); border-right:4px solid var(--accent); padding:12px; border-radius:8px; font-size:0.85rem; line-height:1.6;"></div>
+        </div>
       </div>
     </section>
 
-    <!-- TAB: SECRET CODES -->
+    <!-- TAB 7: SECRET CODES & DIAGNOSTIC MENU -->
     <section id="tab-secret-codes" class="tab-section">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📟 قاموس الأكواد السرية ومنفذ الدياج (Diagnostic Codes)</div>
+          <div class="card-title">📟 قاموس الأكواد السرية ومنفذ الدياج لجميع الهواتف</div>
           <span class="hub-badge badge-soft">أكواد الفحص والبرمجة</span>
         </div>
 
@@ -541,73 +643,58 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>الشركة / النظام</th>
+                <th>الشركة والموديل</th>
                 <th>الكود البرمجي (Dialer Code)</th>
-                <th>الوظيفة الفنية والهدف البرمجي</th>
+                <th>الوظيفة والهدف الهندسي</th>
               </tr>
             </thead>
             <tbody>
+              <!-- LG Secret Codes -->
+              <tr style="background:rgba(168,85,247,0.04);">
+                <td><strong>أجهزة LG الحديثة</strong></td>
+                <td><span class="code-tag">*#546368#*الموديل#</span></td>
+                <td>الدخول إلى القائمة المخفية <strong>HiddenMenu</strong> لـ LG (مثال لموديل 710: <code>*#546368#*710#</code>).</td>
+              </tr>
+              <tr style="background:rgba(168,85,247,0.04);">
+                <td><strong>أجهزة LG القديمة</strong></td>
+                <td><span class="code-tag">277634#*#</span></td>
+                <td>قائمة Test Menu لتفعيل بورت الدياج وتعديل إعدادات المودم وشبكة CDMA.</td>
+              </tr>
+              <!-- Samsung Codes -->
               <tr>
-                <td><strong>سامسونج (Samsung)</strong></td>
+                <td><strong>سامسونج</strong></td>
                 <td><span class="code-tag">*#0*#</span></td>
-                <td>قائمة فحص الهاردوير الشامل (الشاشة، اللمس، الحساسات، السماعات).</td>
+                <td>قائمة الفحص الشامل للهاردوير (الشاشة، اللمس، الحساسات، الكاميرات).</td>
               </tr>
               <tr>
-                <td><strong>سامسونج (Samsung)</strong></td>
+                <td><strong>سامسونج</strong></td>
                 <td><span class="code-tag">*#0808#</span></td>
-                <td>قائمة إعدادات USB وتفعيل منفذ الدياج (DM+MODEM+ADB).</td>
+                <td>تفعيل منفذ الدياج (DM + MODEM + ADB) لقراءة وكتابة ملفات الشبكة QCN.</td>
               </tr>
               <tr>
-                <td><strong>سامسونج (Samsung)</strong></td>
+                <td><strong>سامسونج</strong></td>
                 <td><span class="code-tag">*#1234#</span></td>
-                <td>قراءة إصدار الـ AP / CP / CSC لمعرفة الباينري دون إطفاء الجهاز.</td>
+                <td>قراءة إصدار الـ AP / CP / CSC لمعرفة الباينري دون إطفاء الهاتف.</td>
               </tr>
+              <!-- Xiaomi Codes -->
               <tr>
-                <td><strong>شاومي (Xiaomi)</strong></td>
-                <td><span class="code-tag">*#*#6484#*#*</span></td>
-                <td>قائمة CIT لفحص ومعايرة الحساسات والشاشة والشحن والكاميرات.</td>
-              </tr>
-              <tr>
-                <td><strong>شاومي (Xiaomi)</strong></td>
+                <td><strong>شاومي</strong></td>
                 <td><span class="code-tag">*#*#86583#*#*</span></td>
                 <td>تفعيل مكالمات VoLTE لشبكة يمن موبايل وسبأفون (Disable Carrier Check).</td>
               </tr>
               <tr>
-                <td><strong>هواتف CDMA / فيريزون</strong></td>
+                <td><strong>شاومي (Qualcomm)</strong></td>
+                <td><span class="code-tag">*#*#717717#*#*</span></td>
+                <td>تفعيل بورت الدياج المباشر لأجهزة شاومي كوالكوم بدون روت.</td>
+              </tr>
+              <!-- CDMA Codes -->
+              <tr>
+                <td><strong>أجهزة CDMA / فيريزون</strong></td>
                 <td><span class="code-tag">##3424# أو ##PROGRAM</span></td>
                 <td>قائمة برمجة الشبكة وإدخال كود الـ SPC (000000).</td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB: SOFTWARE TOOLS -->
-    <section id="tab-software-tools" class="tab-section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">💻 الدليل التشغيلي لبرامج السوفتوير والدونجلات المعتمدة</div>
-          <span class="hub-badge badge-soft">مرجع أدوات البرمجة</span>
-        </div>
-
-        <div class="grid-fluid">
-          <div style="background:#080d1a; border:1px solid var(--border); border-right:4px solid var(--accent); padding:12px; border-radius:8px; line-height:1.6; font-size:0.84rem;">
-            <strong style="color:var(--accent);">1. أداة UnlockTool:</strong><br>
-            • تخطي حساب جوجل FRP، فتح بوتلودر شاومي بنقرة، محو معرف Mi Account، وفورمات معالجات BROM / EDL 9008 وتخطي آبل.
-          </div>
-          <div style="background:#080d1a; border:1px solid var(--border); border-right:4px solid var(--purple); padding:12px; border-radius:8px; line-height:1.6; font-size:0.84rem;">
-            <strong style="color:var(--purple);">2. بوكس Pandora Box:</strong><br>
-            • وحش معالجات MTK و Unisoc/SPD. سحب فلاشات Dump، إصلاح البوت الميت، فك تشفير الشبكة، وتعديل IMEI بدون فقدان NV.
-          </div>
-          <div style="background:#080d1a; border:1px solid var(--border); border-right:4px solid var(--succ); padding:12px; border-radius:8px; line-height:1.6; font-size:0.84rem;">
-            <strong style="color:var(--succ);">3. أداة DFT Pro Tool:</strong><br>
-            • الأفضل لشاومي وسامسونج. تفليش الرومات الموجهة وإصلاح شبكات شاومي Dual SIM بعد فتح البوتلودر.
-          </div>
-          <div style="background:#080d1a; border:1px solid var(--border); border-right:4px solid var(--warn); padding:12px; border-radius:8px; line-height:1.6; font-size:0.84rem;">
-            <strong style="color:var(--warn);">4. أداة QPST / QFIL:</strong><br>
-            • سحب وحقن ملفات الشبكة QCN لأجهزة كوالكوم، إعادة برمجة يمن موبايل و VoLTE وتفليش أجهزة EDL 9008.
-          </div>
         </div>
       </div>
     </section>
@@ -639,7 +726,36 @@
       return 'all';
     }
 
-    // Dedicated Smart Firmware Search Engine
+    // Binary Safety Logic in Academy
+    function runBinaryCheck() {
+      const cur = parseInt(document.getElementById('calc-cur-bin').value) || 0;
+      const targetStr = document.getElementById('calc-target-ap').value.trim();
+      const evalBox = document.getElementById('binary-eval-box');
+
+      let targetBinary = null;
+      if (/^\d+$/.test(targetStr)) {
+        targetBinary = parseInt(targetStr);
+      } else {
+        const match = targetStr.match(/([A-Z0-9]{4})([0-9])([A-Z0-9]{3,4})$/i);
+        if (match && match[2]) targetBinary = parseInt(match[2]);
+      }
+
+      if (targetBinary === null || isNaN(targetBinary)) {
+        evalBox.style.borderColor = 'var(--border)';
+        evalBox.innerHTML = `⚠️ اكتب اسم فلاشة الـ AP أو رقم باينري الفلاشة مباشرة لفحصه.`;
+        return;
+      }
+
+      if (targetBinary >= cur) {
+        evalBox.style.borderColor = 'var(--succ)';
+        evalBox.innerHTML = `<strong style="color:var(--succ);">✅ تفليش آمن 100% ومسموح:</strong> باينري الفلاشة (<strong>${targetBinary}</strong>) متوافق أو أعلى من باينري الهاتف (<strong>${cur}</strong>). لن يحدث قفل SW REV.`;
+      } else {
+        evalBox.style.borderColor = 'var(--crit)';
+        evalBox.innerHTML = `<strong style="color:var(--crit);">⛔ خطر داهم وممنوع (SW REV Brick):</strong> باينري الفلاشة (<strong>${targetBinary}</strong>) أقل من باينري الهاتف (<strong>${cur}</strong>)! الهاتف سيرفض التفليش وإذا أُجبر سيتوقف على شاشة الموت.`;
+      }
+    }
+
+    // Smart Firmware Search Engine
     async function executeFirmwareSearch() {
       const model = document.getElementById('fw-model').value.trim();
       const regionPurpose = document.getElementById('fw-region').value;
@@ -648,12 +764,12 @@
       const container = document.getElementById('firmware-results');
 
       if (!model) {
-        alert('يرجى كتابة موديل الهاتف (مثال: SM-G986U أو SM-A125F)');
+        alert('يرجى كتابة موديل الهاتف أولاً (مثال: SM-G986U أو LG-G710VM أو Infinix X688B)');
         return;
       }
 
       btn.disabled = true;
-      btn.innerText = '⏳ جارٍ استخراج الفلاشة المناسبة والتوجيه الإقليمي...';
+      btn.innerText = '⏳ جارٍ استخراج الفلاشة والتوجيه المعتمد...';
 
       try {
         const response = await fetch('/api/diagnose', {
@@ -664,7 +780,7 @@
             target_topic: 'firmware',
             target_region: regionPurpose,
             current_binary: bin || 'unknown',
-            text: `ابحث عن الفلاشة المناسبة للموديل: ${model}. المنطقة والهدف المطلوب: ${regionPurpose}. باينري الجهاز الحالي: ${bin || 'غير محدد'}. حدد كود التوجيه CSC الأنسب بدقة.`
+            text: `استخرج الفلاشة المناسبة والتوجيه الإقليمي للهاتف: ${model}. المنطقة والهدف: ${regionPurpose}. باينري الجهاز: ${bin || 'غير محدد'}. حدد صيغة الفلاشة والأداة المعتمدة وكود الـ CSC الأفضل بدقة.`
           })
         });
 
@@ -679,7 +795,7 @@
         renderFirmwareCard(res, container);
 
       } catch (err) {
-        alert('حدث خطأ أثناء فحص الفلاشة: ' + err.message);
+        alert('حدث خطأ: ' + err.message);
       } finally {
         btn.disabled = false;
         btn.innerText = '⚡ استخراج الفلاشة المناسبة والتوجيه الدقيق';
@@ -689,62 +805,54 @@
     function renderFirmwareCard(res, container) {
       const card = document.createElement('div');
       card.className = 'firmware-card';
-
       const modelRaw = res.model_code || res.model || 'Device';
       const mQ = encodeURIComponent(modelRaw);
       const fw = res.firmware_guide || {};
 
-      const samfwUrl = `https://samfw.com/firmware/${mQ}`;
-      const halabtechUrl = `https://support.halabtech.com/index.php?a=browse&b=category&id=0&search=${mQ}`;
-      const xiaomiUrl = `https://miuirom.org`;
+      let samfwUrl = `https://samfw.com/firmware/${mQ}`;
+      let halabtechUrl = `https://support.halabtech.com/index.php?a=browse&b=category&id=0&search=${mQ}`;
 
       card.innerHTML = `
-        <div class="firmware-header">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border-bottom:1px solid var(--border); padding-bottom:8px;">
           <div>
             <h2 style="font-size:1.15rem; font-weight:900; color:var(--accent);">
-              💾 الفلاشة المعتمدة لجهاز: ${res.brand || ''} ${res.model || ''} (${modelRaw})
+              💾 الفلاشة المعتمدة لـ: ${res.brand || ''} ${res.model || ''} (${modelRaw})
             </h2>
             <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
               المعالج: <strong>${res.chipset || 'غير محدد'}</strong> | تاريخ التقرير: ${new Date().toLocaleDateString('ar-YE')}
             </div>
           </div>
-          <span class="hub-badge badge-firm">${fw.recommended_csc_region ? 'CSC: ' + fw.recommended_csc_region : 'توجيه إقليمي'}</span>
+          <span class="hub-badge badge-firm">${fw.recommended_csc_region ? 'التوجيه: ' + fw.recommended_csc_region : 'فلاشة موجهة'}</span>
         </div>
 
         <div style="font-size:0.86rem; line-height:1.65; background:#040711; padding:12px; border-radius:8px; border:1px solid var(--border);">
-          <strong>🎯 التوجيه والنسخة الموصى بها:</strong><br>
+          <strong>🎯 النسخة والصيغة الموصى بها:</strong><br>
           ${fw.target_variant || 'الفلاشة الرسمية الموجهة'}<br><br>
-          <strong style="color:var(--succ);">🌟 كود المنطقة الأنسب (Recommended CSC / Region):</strong><br>
-          <code class="code-tag" style="font-size:1rem; font-weight:bold; color:var(--succ);">${fw.recommended_csc_region || 'KSA / XSG / XAA'}</code><br><br>
-          <strong>⭐ مميزات هذا التوجيه (Region Advantages):</strong><br>
-          ${fw.region_advantages || 'تعريب كامل، تشغيل VoLTE، استقرار شبكات اليمن.'}<br><br>
-          <strong style="color:var(--warn);">🛡️ شرط حماية الباينري (Binary SW REV):</strong><br>
-          ${fw.binary_requirement || 'يجب أن يكون باينري الفلاشة مساوياً أو أعلى من باينري الجهاز الحالي لمنع خطأ SW REV CHECK FAIL.'}
+          <strong style="color:var(--succ);">🌟 كود المنطقة الأنسب (CSC / Region):</strong><br>
+          <code class="code-tag" style="font-size:0.95rem; font-weight:bold; color:var(--succ);">${fw.recommended_csc_region || 'الرسمي المعتمد'}</code><br><br>
+          <strong style="color:var(--warn);">🛡️ شرط حماية الباينري (Binary / ARB Requirement):</strong><br>
+          ${fw.binary_requirement || 'يجب مطابقة الباينري لمنع قفل الهاتف بخطأ SW REV.'}
         </div>
 
         <div style="background:#040711; padding:12px; border-radius:8px; border:1px solid var(--border); font-size:0.82rem; line-height:1.6;">
           <strong>🛠️ طريقة وأداة التفليش المعتمدة:</strong><br>
-          ${fw.flashing_method_and_tool || 'برنامج Odin3 v3.14.4 عبر اختيار ملفات BL, AP, CP, CSC.'}<br><br>
-          <strong style="color:var(--accent);">📋 قاعدة اختيار ملف الـ CSC:</strong><br>
-          ${fw.csc_choice_rule || 'استخدم ملف CSC_xxx لعمل فورمات وتغيير التوجيه بالكامل ونظافة النظام، أو HOME_CSC للاحتفاظ ببيانات العميل إن كان نفس الباينري.'}
+          ${fw.flashing_method_and_tool || 'برنامج التفليش الرسمي المعتمد للموديل.'}<br><br>
+          <strong style="color:var(--accent);">📋 قاعدة حفظ البيانات والفورمات:</strong><br>
+          ${fw.csc_choice_rule || 'تأكد من اختيار الملف المناسب حسب الحاجة للاحتفاظ ببيانات العميل أو مسحها.'}
         </div>
 
         <div>
           <div style="font-size:0.82rem; font-weight:800; color:#cbd5e1; margin-bottom:6px;">
-            🔗 روابط مباشرة لتحميل الفلاشة بأقصى سرعة:
+            🔗 روابط مباشرة وموثوقة لتحميل فلاشة هذا الموديل:
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
             <a href="${samfwUrl}" target="_blank" class="link-item">
-              <span class="link-title"><span>⚡</span> سيرفر SamFW (تحميل فوري)</span>
-              <span class="hub-badge badge-soft">مباشر ↗</span>
+              <span class="link-title"><span>⚡</span> سيرفر SamFW الرسمي</span>
+              <span class="hub-badge badge-soft">تحميل مباشر ↗</span>
             </a>
             <a href="${halabtechUrl}" target="_blank" class="link-item">
-              <span class="link-title"><span>💎</span> فلاشات حلب تك المعتمدة</span>
-              <span class="hub-badge badge-soft">بحث ↗</span>
-            </a>
-            <a href="${xiaomiUrl}" target="_blank" class="link-item">
-              <span class="link-title"><span>📱</span> سيرفر رومات شاومي الرسمي</span>
-              <span class="hub-badge badge-soft">رسمي ↗</span>
+              <span class="link-title"><span>💎</span> أرشيف سيرفر حلب تك</span>
+              <span class="hub-badge badge-soft">بحث الفلاشة ↗</span>
             </a>
           </div>
         </div>
@@ -754,7 +862,7 @@
       card.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Fast AI Search (Tab 2)
+    // Fast AI Search (Tab 4)
     async function executePreciseSearch() {
       const model = document.getElementById('ai-model').value.trim();
       let topic = document.getElementById('ai-target-topic').value;
@@ -763,7 +871,7 @@
       const container = document.getElementById('ai-stream-results');
 
       if (!model) {
-        alert('يرجى إدخال موديل الجهاز أولاً');
+        alert('يرجى إدخال موديل الهاتف أولاً (مثال: SM-A125F أو LG-V405UA)');
         return;
       }
 
@@ -810,24 +918,35 @@
 
       if (topic === 'arabization' || res.arabization) {
         contentHtml += `
-          <div class="target-block">
+          <div class="info-box">
             <div style="font-weight:800; color:var(--accent);">🌐 طريقة التعريب المعتمدة (${modelRaw})</div>
             <div><strong>الإجراء:</strong><br>${res.arabization?.methods || res.diagnostic_summary}</div>
-            <div><strong>الأداة:</strong> <code>${res.arabization?.commands_or_tools || 'SamFW / CSC Change'}</code></div>
+            <div><strong>الأداة:</strong> <code>${res.arabization?.commands_or_tools || 'SamFW / CSC / ADB'}</code></div>
           </div>`;
       }
-      if (topic === 'frp' || res.frp_bypass) {
+      if (topic === 'boot_modes' || res.boot_modes) {
         contentHtml += `
-          <div class="target-block" style="border-right-color:var(--warn);">
-            <div style="font-weight:800; color:var(--warn);">🔐 تخطي حساب جوجل FRP لـ (${modelRaw})</div>
-            <div><strong>الطريقة:</strong><br>${res.frp_bypass?.recommended_method || res.diagnostic_summary}</div>
+          <div class="info-box">
+            <div style="font-weight:800; color:var(--accent);">📟 طرق الدخول لأوضاع الجهاز (${modelRaw})</div>
+            <div><strong>وضع الداونلود / فاست بوت:</strong> ${res.boot_modes?.download_odin || 'غير محدد'}</div>
+            <div><strong>وضع الريكفري:</strong> ${res.boot_modes?.recovery || 'غير محدد'}</div>
+            <div><strong>التيست بوينت / طوارئ EDL:</strong> ${res.boot_modes?.edl_testpoint || 'غير محدد'}</div>
+            <div><strong>كود منفذ الدياج:</strong> <code>${res.boot_modes?.diag_port_code || 'غير محدد'}</code></div>
           </div>`;
       }
       if (topic === 'network' || res.network_and_internet) {
         contentHtml += `
-          <div class="target-block" style="border-right-color:var(--succ);">
-            <div style="font-weight:800; color:var(--succ);">📶 فك الشفرة والـ 4G لـ (${modelRaw})</div>
-            <div>${res.network_and_internet?.sim_unlock || res.network_and_internet?.apn_activation || res.diagnostic_summary}</div>
+          <div class="info-box" style="border-right-color:var(--succ);">
+            <div style="font-weight:800; color:var(--succ);">📶 فك الشفرة وتفعيل الإنترنت والـ 4G لـ (${modelRaw})</div>
+            <div><strong>فك شفرة الشبكة والـ SIM:</strong><br>${res.network_and_internet?.sim_unlock || 'فك تلقائي أو عبر تعديل ملفات NV'}</div>
+            <div><strong>ضبط وتفعيل الإنترنت والـ APN:</strong><br>${res.network_and_internet?.apn_activation || 'ضبط نقطة الوصول'}</div>
+          </div>`;
+      }
+      if (topic === 'frp' || res.frp_bypass) {
+        contentHtml += `
+          <div class="info-box" style="border-right-color:var(--warn);">
+            <div style="font-weight:800; color:var(--warn);">🔐 تخطي حساب جوجل FRP لـ (${modelRaw})</div>
+            <div><strong>الطريقة الموصى بها:</strong><br>${res.frp_bypass?.recommended_method || res.diagnostic_summary}</div>
           </div>`;
       }
 
@@ -836,13 +955,47 @@
           <h2 style="font-size:1.05rem; font-weight:900; color:var(--accent);">${res.brand || ''} ${res.model || ''} (${modelRaw})</h2>
           <span class="hub-badge badge-soft">${res.chipset || 'المعالج'}</span>
         </div>
-        ${contentHtml || `<div class="target-block"><div>${res.diagnostic_summary}</div></div>`}
+        ${contentHtml || `<div class="info-box"><div>${res.diagnostic_summary}</div></div>`}
       `;
       container.prepend(card);
       card.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // PWA Install Trigger
+    // DC Power Analysis Logic
+    function runDCAnalysis() {
+      const stage = document.getElementById('dc-stage-select').value;
+      const current = parseFloat(document.getElementById('dc-single-val').value) || 0;
+      const box = document.getElementById('dc-report-box');
+
+      if (stage === 'standby') {
+        if (current === 0) {
+          box.style.borderRightColor = 'var(--succ)';
+          box.innerHTML = `<strong>سليم تماماً (0.000A):</strong> لا يوجد أي شورت مباشر على خط VBAT أو VPH_PWR قبل كبسة الباور. مسارات التغذية الأولية سليمة.`;
+        } else if (current > 400) {
+          box.style.borderRightColor = 'var(--crit)';
+          box.innerHTML = `<strong style="color:var(--crit)">شورت صريح ومباشر (>0.4A):</strong> شورت مباشر على خط البطارية، تلف مكثف رئيسي، أو تلف في آيسي الشحن/الباور أو مضخم الصوت PA. افحص بالحقن الحراري عند 3.7V.`;
+        } else {
+          box.style.borderRightColor = 'var(--warn)';
+          box.innerHTML = `<strong style="color:var(--warn)">تسريب غير طبيعي (${current}mA):</strong> تسريب ناتج عن ترسبات رطوبة أو مكثف تالف جزئياً على أحد خطوط التغذية الرئيسية.`;
+        }
+      } else {
+        if (current === 0) {
+          box.style.borderRightColor = 'var(--crit)';
+          box.innerHTML = `<strong style="color:var(--crit)">فصل كامل (0mA):</strong> مسار كبسة الباور مقطوع، مفتاح التشغيل مكسور، أو غياب فولت 1.8V من آيسي الباور PMIC.`;
+        } else if (current >= 20 && current <= 45) {
+          box.style.borderRightColor = 'var(--warn)';
+          box.innerHTML = `<strong style="color:var(--warn)">سحب ضعيف وثبات (20-45mA):</strong> خلل في كريستالة التوقيت 26MHz أو تلف ملفات التغذية الأولية لآيسي الباور LDO أو غياب فولتيات المعالج.`;
+        } else if (current >= 60 && current <= 95) {
+          box.style.borderRightColor = 'var(--accent)';
+          box.innerHTML = `<strong style="color:var(--accent)">تعليق اتصال الذاكرة (60-95mA Bootloop):</strong> المعالج يستجيب للأمر ولكنه عاجز عن قراءة الذاكرة (UFS / eMMC). تلف في ملفات البوت أو فصل في كرات لحام الذاكرة (Reballing مطلوب).`;
+        } else {
+          box.style.borderRightColor = 'var(--succ)';
+          box.innerHTML = `<strong style="color:var(--succ)">سحب إقلاع طبيعي:</strong> تأرجح سليم بين 0.2A إلى 1.0A يدل على إقلاع النظام وتنشيط الشاشة والأنوية.`;
+        }
+      }
+    }
+
+    // PWA Install Hook
     let deferredPrompt;
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
@@ -871,6 +1024,8 @@
         const btn = document.getElementById('pwa-install-btn');
         if (btn) btn.innerHTML = '✅ مثبت';
       }
+      runBinaryCheck();
+      runDCAnalysis();
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
       }
